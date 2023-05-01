@@ -67,12 +67,12 @@ namespace CppCLR_WinformsProjekt {
 
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
-
+		cfg.Load();
 	}
 
 	private: System::Void MainForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e)
 	{
-		
+		cfg.Save();
 	}
 	};
 }
