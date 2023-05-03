@@ -7,7 +7,7 @@ void PrintDate(SYSTEMTIME d)
 }
 
 bool compareByTime(const pair<Message, int>& a, const pair<Message, int>& b) {
-	FILETIME aFileTime, bFileTime;
+	::FILETIME aFileTime, bFileTime;
 	SystemTimeToFileTime(&a.first.SentDate, &aFileTime);
 	SystemTimeToFileTime(&b.first.SentDate, &bFileTime);
 	return CompareFileTime(&aFileTime, &bFileTime) < 0;

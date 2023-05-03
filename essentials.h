@@ -9,4 +9,12 @@
 #include <queue>
 #include <algorithm>
 
+#pragma comment (lib, "user32.lib")
+
 using namespace std;
+using namespace System;
+using namespace System::Runtime::InteropServices;
+
+#define CPPSTR2SYSTEM(str) gcnew String(str)
+
+string SystemStringToCpp(String^ str);

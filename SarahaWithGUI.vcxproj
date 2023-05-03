@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{d14edd84-791a-4a1a-92bd-8ae242472e43}</ProjectGuid>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>SarahaWithGUI</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,7 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -160,6 +160,9 @@
     <ClInclude Include="Misc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UserAccount.h" />
+    <ClInclude Include="UserForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -168,10 +171,12 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CppCLR_WinformsProjekt.cpp" />
+    <ClCompile Include="essentials.cpp" />
     <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="UserAccount.cpp" />
+    <ClCompile Include="UserForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />

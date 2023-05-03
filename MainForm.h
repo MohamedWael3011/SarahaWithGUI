@@ -1,6 +1,8 @@
 #pragma once
 #include "main.h"
-namespace CppCLR_WinformsProjekt {
+#include "UserForm.h"
+
+namespace SarahaWithGUI {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -8,6 +10,7 @@ namespace CppCLR_WinformsProjekt {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Runtime::InteropServices;
 
 	/// <summary>
 	/// Zusammenfassung für MainForm
@@ -65,23 +68,6 @@ namespace CppCLR_WinformsProjekt {
 	private: System::Windows::Forms::TextBox^ Register_Password;
 	private: System::Windows::Forms::Panel^ panel5;
 	private: System::Windows::Forms::TextBox^ Register_Username;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	private:
 		/// <summary>
@@ -150,7 +136,7 @@ namespace CppCLR_WinformsProjekt {
 			this->LoginScreen_LeftPart->Location = System::Drawing::Point(0, 0);
 			this->LoginScreen_LeftPart->Name = L"LoginScreen_LeftPart";
 			this->LoginScreen_LeftPart->Size = System::Drawing::Size(443, 593);
-			this->LoginScreen_LeftPart->TabIndex = 0;
+			this->LoginScreen_LeftPart->TabIndex = 5;
 			// 
 			// Register_Left
 			// 
@@ -162,7 +148,7 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_Left->Location = System::Drawing::Point(0, 0);
 			this->Register_Left->Name = L"Register_Left";
 			this->Register_Left->Size = System::Drawing::Size(443, 593);
-			this->Register_Left->TabIndex = 9;
+			this->Register_Left->TabIndex = 6;
 			// 
 			// Register_Login
 			// 
@@ -171,14 +157,14 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_Login->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Login->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->Register_Login->Font = (gcnew System::Drawing::Font(L"Inter", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Register_Login->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Register_Login->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Login->Location = System::Drawing::Point(128, 374);
 			this->Register_Login->Name = L"Register_Login";
 			this->Register_Login->Size = System::Drawing::Size(186, 38);
-			this->Register_Login->TabIndex = 8;
+			this->Register_Login->TabIndex = 4;
 			this->Register_Login->Text = L"Log in";
 			this->Register_Login->UseVisualStyleBackColor = false;
 			this->Register_Login->Click += gcnew System::EventHandler(this, &MainForm::Register_Login_Click);
@@ -189,19 +175,19 @@ namespace CppCLR_WinformsProjekt {
 			this->pictureBox6->Name = L"pictureBox6";
 			this->pictureBox6->Size = System::Drawing::Size(300, 118);
 			this->pictureBox6->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox6->TabIndex = 4;
+			this->pictureBox6->TabIndex = 7;
 			this->pictureBox6->TabStop = false;
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Font = (gcnew System::Drawing::Font(L"Yellowtail", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::WhiteSmoke;
 			this->label2->Location = System::Drawing::Point(134, 137);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(180, 51);
-			this->label2->TabIndex = 2;
+			this->label2->Size = System::Drawing::Size(186, 37);
+			this->label2->TabIndex = 8;
 			this->label2->Text = L"Welcome to";
 			// 
 			// Login_Register
@@ -211,14 +197,14 @@ namespace CppCLR_WinformsProjekt {
 			this->Login_Register->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Register->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->Login_Register->Font = (gcnew System::Drawing::Font(L"Inter", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Login_Register->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Login_Register->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Register->Location = System::Drawing::Point(128, 374);
 			this->Login_Register->Name = L"Login_Register";
 			this->Login_Register->Size = System::Drawing::Size(186, 38);
-			this->Login_Register->TabIndex = 8;
+			this->Login_Register->TabIndex = 26;
 			this->Login_Register->Text = L"Register";
 			this->Login_Register->UseVisualStyleBackColor = false;
 			this->Login_Register->Click += gcnew System::EventHandler(this, &MainForm::Login_Register_Click);
@@ -229,19 +215,19 @@ namespace CppCLR_WinformsProjekt {
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(300, 118);
 			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox2->TabIndex = 4;
+			this->pictureBox2->TabIndex = 9;
 			this->pictureBox2->TabStop = false;
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Yellowtail", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::Color::WhiteSmoke;
 			this->label1->Location = System::Drawing::Point(134, 137);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(180, 51);
-			this->label1->TabIndex = 2;
+			this->label1->Size = System::Drawing::Size(186, 37);
+			this->label1->TabIndex = 10;
 			this->label1->Text = L"Welcome to";
 			// 
 			// LoginScreen_RightPart
@@ -260,7 +246,7 @@ namespace CppCLR_WinformsProjekt {
 			this->LoginScreen_RightPart->Location = System::Drawing::Point(443, 0);
 			this->LoginScreen_RightPart->Name = L"LoginScreen_RightPart";
 			this->LoginScreen_RightPart->Size = System::Drawing::Size(563, 593);
-			this->LoginScreen_RightPart->TabIndex = 1;
+			this->LoginScreen_RightPart->TabIndex = 11;
 			this->LoginScreen_RightPart->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::LoginScreen_RightPart_Paint);
 			// 
 			// Register_Right
@@ -281,14 +267,14 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_Right->Location = System::Drawing::Point(0, 0);
 			this->Register_Right->Name = L"Register_Right";
 			this->Register_Right->Size = System::Drawing::Size(563, 593);
-			this->Register_Right->TabIndex = 8;
+			this->Register_Right->TabIndex = 12;
 			// 
 			// pictureBox5
 			// 
 			this->pictureBox5->Location = System::Drawing::Point(95, 302);
 			this->pictureBox5->Name = L"pictureBox5";
 			this->pictureBox5->Size = System::Drawing::Size(32, 32);
-			this->pictureBox5->TabIndex = 10;
+			this->pictureBox5->TabIndex = 13;
 			this->pictureBox5->TabStop = false;
 			// 
 			// panel6
@@ -298,7 +284,7 @@ namespace CppCLR_WinformsProjekt {
 			this->panel6->Location = System::Drawing::Point(133, 327);
 			this->panel6->Name = L"panel6";
 			this->panel6->Size = System::Drawing::Size(304, 3);
-			this->panel6->TabIndex = 9;
+			this->panel6->TabIndex = 14;
 			// 
 			// Register_PasswordC
 			// 
@@ -306,17 +292,16 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_PasswordC->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->Register_PasswordC->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->Register_PasswordC->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Register_PasswordC->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Register_PasswordC->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_PasswordC->Location = System::Drawing::Point(133, 302);
 			this->Register_PasswordC->Name = L"Register_PasswordC";
-			this->Register_PasswordC->Size = System::Drawing::Size(304, 25);
-			this->Register_PasswordC->TabIndex = 8;
+			this->Register_PasswordC->Size = System::Drawing::Size(304, 19);
+			this->Register_PasswordC->TabIndex = 2;
 			this->Register_PasswordC->Text = L"Confirm Password";
-			this->Register_PasswordC->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::Register_PasswordC_MouseClick);
-			this->Register_PasswordC->Enter += gcnew System::EventHandler(this, &MainForm::Register_PasswordC_Enter);
+			this->Register_PasswordC->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_PasswordC_Enter);
 			this->Register_PasswordC->Leave += gcnew System::EventHandler(this, &MainForm::Register_PasswordC_Leave);
 			// 
 			// button1
@@ -325,13 +310,13 @@ namespace CppCLR_WinformsProjekt {
 				static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->button1->FlatAppearance->BorderSize = 0;
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button1->ForeColor = System::Drawing::Color::White;
 			this->button1->Location = System::Drawing::Point(528, 3);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(32, 32);
-			this->button1->TabIndex = 7;
+			this->button1->TabIndex = 100;
 			this->button1->Text = L"X";
 			this->button1->UseVisualStyleBackColor = false;
 			this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
@@ -342,22 +327,23 @@ namespace CppCLR_WinformsProjekt {
 				static_cast<System::Int32>(static_cast<System::Byte>(103)));
 			this->Register->FlatAppearance->BorderSize = 0;
 			this->Register->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->Register->Font = (gcnew System::Drawing::Font(L"Inter", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Register->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Register->ForeColor = System::Drawing::SystemColors::ButtonFace;
 			this->Register->Location = System::Drawing::Point(156, 374);
 			this->Register->Name = L"Register";
 			this->Register->Size = System::Drawing::Size(229, 38);
-			this->Register->TabIndex = 6;
+			this->Register->TabIndex = 3;
 			this->Register->Text = L"Register";
 			this->Register->UseVisualStyleBackColor = false;
+			this->Register->Click += gcnew System::EventHandler(this, &MainForm::Register_Click);
 			// 
 			// pictureBox3
 			// 
 			this->pictureBox3->Location = System::Drawing::Point(95, 248);
 			this->pictureBox3->Name = L"pictureBox3";
 			this->pictureBox3->Size = System::Drawing::Size(32, 32);
-			this->pictureBox3->TabIndex = 5;
+			this->pictureBox3->TabIndex = 15;
 			this->pictureBox3->TabStop = false;
 			// 
 			// pictureBox4
@@ -365,7 +351,7 @@ namespace CppCLR_WinformsProjekt {
 			this->pictureBox4->Location = System::Drawing::Point(95, 194);
 			this->pictureBox4->Name = L"pictureBox4";
 			this->pictureBox4->Size = System::Drawing::Size(32, 32);
-			this->pictureBox4->TabIndex = 4;
+			this->pictureBox4->TabIndex = 16;
 			this->pictureBox4->TabStop = false;
 			// 
 			// panel4
@@ -375,7 +361,7 @@ namespace CppCLR_WinformsProjekt {
 			this->panel4->Location = System::Drawing::Point(133, 273);
 			this->panel4->Name = L"panel4";
 			this->panel4->Size = System::Drawing::Size(304, 3);
-			this->panel4->TabIndex = 3;
+			this->panel4->TabIndex = 17;
 			// 
 			// Register_Password
 			// 
@@ -383,17 +369,16 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_Password->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->Register_Password->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->Register_Password->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Register_Password->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Register_Password->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Password->Location = System::Drawing::Point(133, 248);
 			this->Register_Password->Name = L"Register_Password";
-			this->Register_Password->Size = System::Drawing::Size(304, 25);
-			this->Register_Password->TabIndex = 2;
+			this->Register_Password->Size = System::Drawing::Size(304, 19);
+			this->Register_Password->TabIndex = 1;
 			this->Register_Password->Text = L"Password";
-			this->Register_Password->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::Register_Password_MouseClick);
-			this->Register_Password->Enter += gcnew System::EventHandler(this, &MainForm::Register_Password_Enter);
+			this->Register_Password->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_Password_Enter);
 			this->Register_Password->Leave += gcnew System::EventHandler(this, &MainForm::Register_Password_Leave);
 			// 
 			// panel5
@@ -403,7 +388,7 @@ namespace CppCLR_WinformsProjekt {
 			this->panel5->Location = System::Drawing::Point(133, 219);
 			this->panel5->Name = L"panel5";
 			this->panel5->Size = System::Drawing::Size(304, 3);
-			this->panel5->TabIndex = 1;
+			this->panel5->TabIndex = 18;
 			// 
 			// Register_Username
 			// 
@@ -411,17 +396,16 @@ namespace CppCLR_WinformsProjekt {
 			this->Register_Username->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->Register_Username->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->Register_Username->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Register_Username->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Register_Username->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Username->Location = System::Drawing::Point(133, 194);
 			this->Register_Username->Name = L"Register_Username";
-			this->Register_Username->Size = System::Drawing::Size(304, 25);
+			this->Register_Username->Size = System::Drawing::Size(304, 19);
 			this->Register_Username->TabIndex = 0;
 			this->Register_Username->Text = L"Username";
-			this->Register_Username->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::Register_Username_MouseClick);
-			this->Register_Username->Enter += gcnew System::EventHandler(this, &MainForm::Register_Username_Enter);
+			this->Register_Username->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_Username_Enter);
 			this->Register_Username->Leave += gcnew System::EventHandler(this, &MainForm::Register_Username_Leave);
 			// 
 			// CloseButton
@@ -430,13 +414,13 @@ namespace CppCLR_WinformsProjekt {
 				static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->CloseButton->FlatAppearance->BorderSize = 0;
 			this->CloseButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->CloseButton->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->CloseButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->CloseButton->ForeColor = System::Drawing::Color::White;
 			this->CloseButton->Location = System::Drawing::Point(528, 3);
 			this->CloseButton->Name = L"CloseButton";
 			this->CloseButton->Size = System::Drawing::Size(32, 32);
-			this->CloseButton->TabIndex = 7;
+			this->CloseButton->TabIndex = 101;
 			this->CloseButton->Text = L"X";
 			this->CloseButton->UseVisualStyleBackColor = false;
 			this->CloseButton->Click += gcnew System::EventHandler(this, &MainForm::CloseButton_Click);
@@ -447,22 +431,23 @@ namespace CppCLR_WinformsProjekt {
 				static_cast<System::Int32>(static_cast<System::Byte>(103)));
 			this->LoginButton->FlatAppearance->BorderSize = 0;
 			this->LoginButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->LoginButton->Font = (gcnew System::Drawing::Font(L"Inter", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->LoginButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->LoginButton->ForeColor = System::Drawing::SystemColors::ButtonFace;
 			this->LoginButton->Location = System::Drawing::Point(156, 374);
 			this->LoginButton->Name = L"LoginButton";
 			this->LoginButton->Size = System::Drawing::Size(229, 38);
-			this->LoginButton->TabIndex = 6;
+			this->LoginButton->TabIndex = 25;
 			this->LoginButton->Text = L"Log in";
 			this->LoginButton->UseVisualStyleBackColor = false;
+			this->LoginButton->Click += gcnew System::EventHandler(this, &MainForm::Login_Click);
 			// 
 			// pictureBox1
 			// 
 			this->pictureBox1->Location = System::Drawing::Point(95, 308);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(32, 32);
-			this->pictureBox1->TabIndex = 5;
+			this->pictureBox1->TabIndex = 19;
 			this->pictureBox1->TabStop = false;
 			// 
 			// ProfileIcon
@@ -470,7 +455,7 @@ namespace CppCLR_WinformsProjekt {
 			this->ProfileIcon->Location = System::Drawing::Point(95, 264);
 			this->ProfileIcon->Name = L"ProfileIcon";
 			this->ProfileIcon->Size = System::Drawing::Size(32, 32);
-			this->ProfileIcon->TabIndex = 4;
+			this->ProfileIcon->TabIndex = 20;
 			this->ProfileIcon->TabStop = false;
 			// 
 			// panel2
@@ -480,7 +465,7 @@ namespace CppCLR_WinformsProjekt {
 			this->panel2->Location = System::Drawing::Point(133, 333);
 			this->panel2->Name = L"panel2";
 			this->panel2->Size = System::Drawing::Size(304, 3);
-			this->panel2->TabIndex = 3;
+			this->panel2->TabIndex = 21;
 			// 
 			// Login_Password
 			// 
@@ -488,17 +473,16 @@ namespace CppCLR_WinformsProjekt {
 			this->Login_Password->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->Login_Password->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->Login_Password->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Login_Password->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Login_Password->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Password->Location = System::Drawing::Point(133, 308);
 			this->Login_Password->Name = L"Login_Password";
-			this->Login_Password->Size = System::Drawing::Size(304, 25);
-			this->Login_Password->TabIndex = 2;
+			this->Login_Password->Size = System::Drawing::Size(304, 19);
+			this->Login_Password->TabIndex = 24;
 			this->Login_Password->Text = L"Password";
-			this->Login_Password->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::Login_Password_MouseClick);
-			this->Login_Password->Enter += gcnew System::EventHandler(this, &MainForm::Login_Password_Enter);
+			this->Login_Password->GotFocus += gcnew System::EventHandler(this, &MainForm::Login_Password_Enter);
 			this->Login_Password->Leave += gcnew System::EventHandler(this, &MainForm::Login_Password_Leave);
 			// 
 			// panel1
@@ -508,7 +492,7 @@ namespace CppCLR_WinformsProjekt {
 			this->panel1->Location = System::Drawing::Point(133, 289);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(304, 3);
-			this->panel1->TabIndex = 1;
+			this->panel1->TabIndex = 22;
 			// 
 			// Login_Username
 			// 
@@ -516,17 +500,16 @@ namespace CppCLR_WinformsProjekt {
 			this->Login_Username->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)));
 			this->Login_Username->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->Login_Username->Font = (gcnew System::Drawing::Font(L"Inter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Login_Username->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Login_Username->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Username->Location = System::Drawing::Point(133, 264);
 			this->Login_Username->Name = L"Login_Username";
-			this->Login_Username->Size = System::Drawing::Size(304, 25);
-			this->Login_Username->TabIndex = 0;
+			this->Login_Username->Size = System::Drawing::Size(304, 19);
+			this->Login_Username->TabIndex = 23;
 			this->Login_Username->Text = L"Username";
-			this->Login_Username->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::Login_Username_MouseClick);
-			this->Login_Username->Enter += gcnew System::EventHandler(this, &MainForm::Login_Username_Enter);
+			this->Login_Username->GotFocus += gcnew System::EventHandler(this, &MainForm::Login_Username_Enter);
 			this->Login_Username->Leave += gcnew System::EventHandler(this, &MainForm::Login_Username_Leave);
 			// 
 			// MainForm
@@ -535,7 +518,7 @@ namespace CppCLR_WinformsProjekt {
 			this->ClientSize = System::Drawing::Size(1006, 593);
 			this->Controls->Add(this->LoginScreen_RightPart);
 			this->Controls->Add(this->LoginScreen_LeftPart);
-			this->Font = (gcnew System::Drawing::Font(L"Inter", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Margin = System::Windows::Forms::Padding(8);
@@ -567,6 +550,7 @@ namespace CppCLR_WinformsProjekt {
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
 		cfg.Load();
+
 		this->pictureBox4->Image = System::Drawing::Image::FromFile("img/ProfileIcon.png");
 		this->pictureBox5->Image = System::Drawing::Image::FromFile("img/PassIcon.png");
 		this->pictureBox3->Image = System::Drawing::Image::FromFile("img/PassIcon.png");
@@ -589,10 +573,12 @@ private: System::Void Login_Username_Enter(System::Object^ sender, System::Event
 	if (Login_Username->Text == "Username")
 		Login_Username->Text = "";
 }
+
 private: System::Void Login_Username_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 	if(Login_Username->Text =="Username")
 		Login_Username->Text = "";
 }
+
 private: System::Void Login_Username_Leave(System::Object^ sender, System::EventArgs^ e) {
 	if (Login_Username->Text == "")
 		Login_Username->Text = "Username";
@@ -601,19 +587,19 @@ private: System::Void Login_Username_Leave(System::Object^ sender, System::Event
 	private: System::Void Login_Password_Enter(System::Object^ sender, System::EventArgs^ e) {
 		if (Login_Password->Text == "Password")
 		{
-			Login_Password->Text = "";
 			Login_Password->UseSystemPasswordChar = true;
-
+			Login_Password->Text = "";
 		}
 	}
 
 private: System::Void Login_Password_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 	if (Login_Password->Text == "Password")
 	{
-		Login_Password->Text = "";
 		Login_Password->UseSystemPasswordChar = true;
+		Login_Password->Text = "";
 	}
 }
+
 private: System::Void Login_Password_Leave(System::Object^ sender, System::EventArgs^ e) {
 	if (Login_Password->Text == "")
 	{
@@ -622,9 +608,11 @@ private: System::Void Login_Password_Leave(System::Object^ sender, System::Event
 	}
 
 }
+
 private: System::Void CloseButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	Application::Exit();
 }
+
 private: System::Void Register_Username_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 	if (Register_Username->Text == "Username")
 		Register_Username->Text = "";
@@ -634,10 +622,12 @@ private: System::Void Register_Username_Enter(System::Object^ sender, System::Ev
 	if (Register_Username->Text == "Username")
 		Register_Username->Text = "";
 }
+
 private: System::Void Register_Username_Leave(System::Object^ sender, System::EventArgs^ e) {
 	if (Register_Username->Text == "")
 		Register_Username->Text = "Username";
 }
+
 private: System::Void Register_Password_Leave(System::Object^ sender, System::EventArgs^ e) {
 	if (Register_Password->Text == "")
 	{
@@ -645,51 +635,56 @@ private: System::Void Register_Password_Leave(System::Object^ sender, System::Ev
 		Register_Password->UseSystemPasswordChar = false;
 	}
 }
+
 private: System::Void Register_Password_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 	if (Register_Password->Text == "Password")
 	{
-		Register_Password->Text = "";
 		Register_Password->UseSystemPasswordChar = true;
+		Register_Password->Text = "";
 	}
 }
+
 private: System::Void Register_Password_Enter(System::Object^ sender, System::EventArgs^ e) {
 	if (Register_Password->Text == "Password")
 	{
-		Register_Password->Text = "";
 		Register_Password->UseSystemPasswordChar = true;
-
+		Register_Password->Text = "";
 	}
-
 }
+
 private: System::Void Register_PasswordC_Enter(System::Object^ sender, System::EventArgs^ e) {
 	if (Register_PasswordC->Text == "Confirm Password")
 	{
-		Register_PasswordC->Text = "";
 		Register_PasswordC->UseSystemPasswordChar = true;
+		Register_PasswordC->Text = "";
 	}
+}
 
-}
-private: System::Void Register_PasswordC_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	if (Register_PasswordC->Text == "Confirm Password")
+private: System::Void Register_PasswordC_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e)
 {
-	Register_PasswordC->Text = "";
-	Register_PasswordC->UseSystemPasswordChar = true;
+	if (Register_PasswordC->Text == "Confirm Password")
+	{
+		Register_PasswordC->UseSystemPasswordChar = true;
+		Register_PasswordC->Text = "";
+	}	
 }
-	
-}
-private: System::Void Register_PasswordC_Leave(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void Register_PasswordC_Leave(System::Object^ sender, System::EventArgs^ e)
+{
 	if (Register_PasswordC->Text == "")
 	{
 		Register_PasswordC->Text = "Confirm Password";
 		Register_PasswordC->UseSystemPasswordChar = false;
-
 	}
-
 }
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e)
+{
 	Application::Exit();
 }
-private: System::Void Register_Login_Click(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void Register_Login_Click(System::Object^ sender, System::EventArgs^ e)
+{
 	Register_Right->Hide();
 	Register_Left->Hide();
 	Register_Username->Text = "Username";
@@ -697,16 +692,75 @@ private: System::Void Register_Login_Click(System::Object^ sender, System::Event
 	Register_PasswordC->Text = "Confirm Password";
 	Register_Password->UseSystemPasswordChar = false;
 	Register_PasswordC->UseSystemPasswordChar = false;
-
-
-
 }
-private: System::Void Login_Register_Click(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void Login_Register_Click(System::Object^ sender, System::EventArgs^ e)
+{
 	Register_Right->Show();
 	Register_Left->Show();
 	Login_Username->Text = "Username";
 	Login_Password->Text = "Password";
 	Login_Password->UseSystemPasswordChar = false;
-}	
+}
+
+private: System::Void Register_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	const char* errormsg = NULL;
+
+	if (Register_Username->Text == "Username" || Register_Username->Text->Length < 4 || Register_Username->Text->Length > 16)
+		errormsg = "Username must be between 4 and 16 characters.";
+	else if (Register_Password->Text == "Password" || Register_Password->Text->Length < 4 || Register_Password->Text->Length > 24)
+		errormsg = "Password must be between 4 and 24 characters.";
+ 	else if (Register_PasswordC->Text == "Confirm Password" || Register_PasswordC->Text != Register_Password->Text)
+		errormsg = "Password and confirmation must be the same.";
+	else
+	{
+		string username = SystemStringToCpp(Register_Username->Text), pw = SystemStringToCpp(Register_Password->Text);
+
+		if (!cfg.AccountExists(username))
+		{
+			UserAccount acc(cfg.PopNextAccountID(), username, pw);
+			cfg.UserAccounts[acc.ID()] = acc;
+		}
+		else
+			errormsg = "Username is already in use, please choose another one.";
+	}
+
+	if (errormsg)
+		MessageBox::Show(CPPSTR2SYSTEM(errormsg), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	else
+	{
+		MessageBox::Show("Your account has been registered successfully.", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		Register_Login_Click(nullptr, nullptr);
+	}
+}
+
+private: System::Void Login_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	const char* errormsg = NULL;
+
+	if (Login_Username->Text == "Username" || Login_Password->Text == "Password")
+		errormsg = "Please fill missing fields.";
+	else
+	{
+		string username = SystemStringToCpp(Login_Username->Text), pw = SystemStringToCpp(Login_Password->Text);
+
+		if (UserAccount* user = cfg.AccountExists(username, pw))
+			current_user = user;
+		else
+			errormsg = "Could not login, incorrect username or password.";
+	}
+
+	if (errormsg)
+		MessageBox::Show(CPPSTR2SYSTEM(errormsg), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	else
+	{
+		MessageBox::Show("You have logged in successfully.", "Logged in", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		Hide();
+
+		UserForm^ form = gcnew UserForm();
+		form->Show();
+	}
+}
 };
 }
