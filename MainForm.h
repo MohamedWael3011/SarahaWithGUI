@@ -565,6 +565,7 @@ namespace SarahaWithGUI {
 	{
 		cfg.Save();
 	}
+
 	private: System::Void LoginScreen_RightPart_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 	}
 

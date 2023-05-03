@@ -57,6 +57,7 @@ namespace SarahaWithGUI {
 			this->ClientSize = System::Drawing::Size(284, 261);
 			this->Name = L"UserForm";
 			this->Text = L"UserForm";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &UserForm::UserForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &UserForm::UserForm_Load);
 			this->ResumeLayout(false);
 
@@ -66,6 +67,11 @@ namespace SarahaWithGUI {
 	private: System::Void UserForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
 
+	}
+
+	private: System::Void UserForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e)
+	{
+		cfg.Save();
 	}
 	};
 }
