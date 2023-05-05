@@ -68,6 +68,8 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::TextBox^ Register_Password;
 	private: System::Windows::Forms::Panel^ panel5;
 	private: System::Windows::Forms::TextBox^ Register_Username;
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ label4;
 
 	private:
 		/// <summary>
@@ -84,12 +86,14 @@ namespace SarahaWithGUI {
 		{
 			this->LoginScreen_LeftPart = (gcnew System::Windows::Forms::Panel());
 			this->Register_Left = (gcnew System::Windows::Forms::Panel());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->Register_Login = (gcnew System::Windows::Forms::Button());
 			this->pictureBox6 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->Login_Register = (gcnew System::Windows::Forms::Button());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->LoginScreen_RightPart = (gcnew System::Windows::Forms::Panel());
 			this->Register_Right = (gcnew System::Windows::Forms::Panel());
 			this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
@@ -129,26 +133,47 @@ namespace SarahaWithGUI {
 			this->LoginScreen_LeftPart->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
 			this->LoginScreen_LeftPart->Controls->Add(this->Register_Left);
+			this->LoginScreen_LeftPart->Controls->Add(this->label4);
 			this->LoginScreen_LeftPart->Controls->Add(this->Login_Register);
 			this->LoginScreen_LeftPart->Controls->Add(this->pictureBox2);
-			this->LoginScreen_LeftPart->Controls->Add(this->label1);
 			this->LoginScreen_LeftPart->Dock = System::Windows::Forms::DockStyle::Left;
 			this->LoginScreen_LeftPart->Location = System::Drawing::Point(0, 0);
 			this->LoginScreen_LeftPart->Name = L"LoginScreen_LeftPart";
 			this->LoginScreen_LeftPart->Size = System::Drawing::Size(443, 593);
 			this->LoginScreen_LeftPart->TabIndex = 5;
+			this->LoginScreen_LeftPart->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->LoginScreen_LeftPart->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+			this->LoginScreen_LeftPart->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 			// 
 			// Register_Left
 			// 
 			this->Register_Left->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
+			this->Register_Left->Controls->Add(this->label3);
 			this->Register_Left->Controls->Add(this->Register_Login);
 			this->Register_Left->Controls->Add(this->pictureBox6);
+			this->Register_Left->Controls->Add(this->label1);
 			this->Register_Left->Controls->Add(this->label2);
+			this->Register_Left->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->Register_Left->Location = System::Drawing::Point(0, 0);
 			this->Register_Left->Name = L"Register_Left";
 			this->Register_Left->Size = System::Drawing::Size(443, 593);
 			this->Register_Left->TabIndex = 6;
+			this->Register_Left->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->Register_Left->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+			this->Register_Left->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label3->ForeColor = System::Drawing::Color::WhiteSmoke;
+			this->label3->Location = System::Drawing::Point(120, 137);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(233, 46);
+			this->label3->TabIndex = 11;
+			this->label3->Text = L"Welcome to";
 			// 
 			// Register_Login
 			// 
@@ -178,17 +203,41 @@ namespace SarahaWithGUI {
 			this->pictureBox6->TabIndex = 7;
 			this->pictureBox6->TabStop = false;
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->ForeColor = System::Drawing::Color::WhiteSmoke;
+			this->label1->Location = System::Drawing::Point(120, 137);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(233, 46);
+			this->label1->TabIndex = 10;
+			this->label1->Text = L"Welcome to";
+			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::WhiteSmoke;
-			this->label2->Location = System::Drawing::Point(134, 137);
+			this->label2->Location = System::Drawing::Point(120, 137);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(186, 37);
+			this->label2->Size = System::Drawing::Size(233, 46);
 			this->label2->TabIndex = 8;
 			this->label2->Text = L"Welcome to";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label4->ForeColor = System::Drawing::Color::WhiteSmoke;
+			this->label4->Location = System::Drawing::Point(120, 137);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(233, 46);
+			this->label4->TabIndex = 27;
+			this->label4->Text = L"Welcome to";
 			// 
 			// Login_Register
 			// 
@@ -218,18 +267,6 @@ namespace SarahaWithGUI {
 			this->pictureBox2->TabIndex = 9;
 			this->pictureBox2->TabStop = false;
 			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label1->ForeColor = System::Drawing::Color::WhiteSmoke;
-			this->label1->Location = System::Drawing::Point(134, 137);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(186, 37);
-			this->label1->TabIndex = 10;
-			this->label1->Text = L"Welcome to";
-			// 
 			// LoginScreen_RightPart
 			// 
 			this->LoginScreen_RightPart->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
@@ -248,6 +285,9 @@ namespace SarahaWithGUI {
 			this->LoginScreen_RightPart->Size = System::Drawing::Size(563, 593);
 			this->LoginScreen_RightPart->TabIndex = 11;
 			this->LoginScreen_RightPart->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::LoginScreen_RightPart_Paint);
+			this->LoginScreen_RightPart->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->LoginScreen_RightPart->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+			this->LoginScreen_RightPart->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 			// 
 			// Register_Right
 			// 
@@ -268,6 +308,9 @@ namespace SarahaWithGUI {
 			this->Register_Right->Name = L"Register_Right";
 			this->Register_Right->Size = System::Drawing::Size(563, 593);
 			this->Register_Right->TabIndex = 12;
+			this->Register_Right->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->Register_Right->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+			this->Register_Right->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 			// 
 			// pictureBox5
 			// 
@@ -298,7 +341,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_PasswordC->Location = System::Drawing::Point(133, 302);
 			this->Register_PasswordC->Name = L"Register_PasswordC";
-			this->Register_PasswordC->Size = System::Drawing::Size(304, 19);
+			this->Register_PasswordC->Size = System::Drawing::Size(304, 23);
 			this->Register_PasswordC->TabIndex = 2;
 			this->Register_PasswordC->Text = L"Confirm Password";
 			this->Register_PasswordC->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_PasswordC_Enter);
@@ -375,7 +418,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Password->Location = System::Drawing::Point(133, 248);
 			this->Register_Password->Name = L"Register_Password";
-			this->Register_Password->Size = System::Drawing::Size(304, 19);
+			this->Register_Password->Size = System::Drawing::Size(304, 23);
 			this->Register_Password->TabIndex = 1;
 			this->Register_Password->Text = L"Password";
 			this->Register_Password->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_Password_Enter);
@@ -402,7 +445,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Register_Username->Location = System::Drawing::Point(133, 194);
 			this->Register_Username->Name = L"Register_Username";
-			this->Register_Username->Size = System::Drawing::Size(304, 19);
+			this->Register_Username->Size = System::Drawing::Size(304, 23);
 			this->Register_Username->TabIndex = 0;
 			this->Register_Username->Text = L"Username";
 			this->Register_Username->GotFocus += gcnew System::EventHandler(this, &MainForm::Register_Username_Enter);
@@ -479,7 +522,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Password->Location = System::Drawing::Point(133, 308);
 			this->Login_Password->Name = L"Login_Password";
-			this->Login_Password->Size = System::Drawing::Size(304, 19);
+			this->Login_Password->Size = System::Drawing::Size(304, 23);
 			this->Login_Password->TabIndex = 24;
 			this->Login_Password->Text = L"Password";
 			this->Login_Password->GotFocus += gcnew System::EventHandler(this, &MainForm::Login_Password_Enter);
@@ -506,7 +549,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->Login_Username->Location = System::Drawing::Point(133, 264);
 			this->Login_Username->Name = L"Login_Username";
-			this->Login_Username->Size = System::Drawing::Size(304, 19);
+			this->Login_Username->Size = System::Drawing::Size(304, 23);
 			this->Login_Username->TabIndex = 23;
 			this->Login_Username->Text = L"Username";
 			this->Login_Username->GotFocus += gcnew System::EventHandler(this, &MainForm::Login_Username_Enter);
@@ -527,6 +570,9 @@ namespace SarahaWithGUI {
 			this->Text = L"Saraha";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 			this->LoginScreen_LeftPart->ResumeLayout(false);
 			this->LoginScreen_LeftPart->PerformLayout();
 			this->Register_Left->ResumeLayout(false);
@@ -759,9 +805,29 @@ private: System::Void Login_Click(System::Object^  sender, System::EventArgs^  e
 		MessageBox::Show("You have logged in successfully.", "Logged in", MessageBoxButtons::OK, MessageBoxIcon::Information);
 		Hide();
 
-		UserForm^ form = gcnew UserForm();
+		UserForm^ form = gcnew UserForm(this);
 		form->Show();
+
 	}
 }
+	   bool Drag;
+	   Point offset;
+private: System::Void MainForm_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	Drag = true;
+	offset.X = e->X;
+	offset.Y = e->Y;
+
+}
+private: System::Void MainForm_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	if (Drag)
+	{
+		Point Curr = PointToScreen(Point(e->X, e->Y));
+		Location = Point(Curr.X - offset.X, Curr.Y - offset.Y);
+	}
+}
+private: System::Void MainForm_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	Drag = false;
+}
+
 };
 }
