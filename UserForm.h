@@ -1,5 +1,7 @@
 #pragma once
 #include "main.h"
+#include <array>
+#include <string>
 namespace SarahaWithGUI {
 
 	using namespace System;
@@ -8,6 +10,8 @@ namespace SarahaWithGUI {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace std;
+
 
 	/// <summary>
 	/// Summary for UserForm
@@ -347,6 +351,8 @@ namespace SarahaWithGUI {
 			this->ResumeLayout(false);
 
 		}
+
+
 #pragma endregion
 
 	private: System::Void UserForm_Load(System::Object^  sender, System::EventArgs^  e)
@@ -440,5 +446,120 @@ private: System::Void LogoutButton_Click(System::Object^ sender, System::EventAr
 	otherform->Show();
 }
 
+	   Panel^ CreateMessageBox(String^ message)
+	   {
+		   Panel^ messageContainer = gcnew Panel();
+		   RichTextBox^ messageBox = gcnew RichTextBox();
+
+		   int wordCount = 0;
+		 
+		   String^ messageContent = message;
+
+		   //Limiting the number of characters per line to 45
+		   cli::array<String^>^ words = messageContent->Split();
+		   String^ processedText = "";
+		   for each (String ^ word in words)
+		   {
+			   if (wordCount > 15)
+			   {
+				   processedText += "\n";
+				   wordCount = 0;
+			   }
+			   processedText += word + " ";
+			   wordCount++;
+		   }
+
+		   messageBox->Text = processedText->Trim();
+
+		   //Measure size of text in textbox
+		   Drawing::Size size = TextRenderer::MeasureText(messageBox->Text, messageBox->Font);
+
+		   // Adjust the size of the textbox to fit the text
+		   messageBox->Width = size.Width;
+		   messageBox->Height = size.Height;
+
+		   //Adjust the size of the panel to fit the textbox
+		   messageContainer->Width = messageBox->Width + 20;
+		   messageContainer->Height = messageBox->Height + 20;
+
+		   //Properties for Panel
+		   messageContainer->BorderStyle = BorderStyle::None;
+		   messageContainer->BackColor = Color::DarkSlateGray;
+		   messageContainer->Padding = System::Windows::Forms::Padding(10);
+
+		   //Properties for Textbox
+		   messageBox->BorderStyle = BorderStyle::None;
+		   messageBox->BackColor = Color::DarkSlateGray;
+		   messageBox->Dock = DockStyle::Fill;
+		   messageBox->ForeColor = Color::White;
+		   messageBox->Multiline = true;
+		   messageBox->ReadOnly = true;
+		   messageBox->WordWrap = true;
+
+		   //Add the textbox inside panel
+		   messageContainer->Controls->Add(messageBox);
+
+		   return messageContainer;
+	   }
+	   Panel^ CreateUIDPanel(String^ ID)
+	   {
+		   Panel^ uIDContainer = gcnew Panel();
+		   Label^ uIDLabel = gcnew Label();
+		   TextBox^ uID = gcnew TextBox();
+
+		   //Label for UID
+		   uIDLabel->Text = "By UID: " + ID;
+		   uIDLabel->ForeColor = Color::White;
+
+		   //Properties for Panel
+		   uIDContainer->Width = uIDLabel->Width;
+		   uIDContainer->Height = uIDLabel->Height;
+		   uIDContainer->BorderStyle = BorderStyle::None;
+		   uIDContainer->BackColor = Color::Black;
+		   uIDContainer->AutoSize = true;
+
+		   //Adding the label inside panel
+		   uIDContainer->Controls->Add(uIDLabel);
+
+		   return uIDContainer;
+	   }
+	   Panel^ CreateMainMessagePanel(String^ message, String^ ID)
+	   {
+		   Panel^ MainPanel = gcnew Panel();
+		   Panel^ MessageBoxPanel = CreateMessageBox(message);
+		   Panel^ UIDPanel = CreateUIDPanel(ID);
+
+		   //Properties of Main Panel
+		   MainPanel->Width = MessageBoxPanel->Width;
+		   UIDPanel->Location = Point(0, MessageBoxPanel->Height);
+		   MainPanel->AutoSize = true;
+
+		   //Add Panels into Main Panel
+		   MainPanel->Controls->Add(MessageBoxPanel);
+		   MainPanel->Controls->Add(UIDPanel);
+
+		   return MainPanel;
+	   }
+	   void CreateMessageLayout()
+	   {
+		   //Create Message Layout
+		   FlowLayoutPanel^ container = gcnew FlowLayoutPanel();
+
+		   //Flow Layout Properties
+		   container->FlowDirection = FlowDirection::TopDown;
+		   container->Dock = DockStyle::Fill;
+		   container->AutoScroll = true;
+		   container->WrapContents = false;
+
+		   //Add the Messages
+		   //----This is for Testing---
+		   container->Controls->Add(CreateMainMessagePanel("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", "1111"));
+		   container->Controls->Add(CreateMainMessagePanel("Hello Karim, Nice to Meet you. I'm Chehab", "2222"));
+		   container->Controls->Add(CreateMainMessagePanel(".", "3333"));
+		   container->Controls->Add(CreateMainMessagePanel("Je suis Fouad", "4444"));
+		   container->Controls->Add(CreateMainMessagePanel("sdfsdfsd", "5555"));
+		   //--------------------------
+		   this->Controls->Add(container);
+	   }
 };
 }
