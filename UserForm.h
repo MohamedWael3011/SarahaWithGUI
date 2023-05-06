@@ -19,8 +19,8 @@ namespace SarahaWithGUI {
 	public ref class UserForm : public System::Windows::Forms::Form
 	{
 	private: Control^ m_selectedpanel;
-	private: System::Windows::Forms::Panel^  msgPanel1;
-	private: System::Windows::Forms::Label^  MsgContent1;
+
+
 	private: System::Windows::Forms::FlowLayoutPanel^  FavoritesPanel;
 	private: System::Windows::Forms::FlowLayoutPanel^  SendPanel;
 	private: System::Windows::Forms::Form^ otherform;
@@ -86,7 +86,7 @@ namespace SarahaWithGUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
 			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
 			this->LogoutButton = (gcnew System::Windows::Forms::Button());
@@ -96,8 +96,6 @@ namespace SarahaWithGUI {
 			this->SendPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->InboxPanel = (gcnew System::Windows::Forms::Panel());
 			this->MsgsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
-			this->msgPanel1 = (gcnew System::Windows::Forms::Panel());
-			this->MsgContent1 = (gcnew System::Windows::Forms::Label());
 			this->SentButton = (gcnew System::Windows::Forms::Button());
 			this->ReceivedButton = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -105,8 +103,6 @@ namespace SarahaWithGUI {
 			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->Options->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
-			this->MsgsPanel->SuspendLayout();
-			this->msgPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// Options
@@ -224,35 +220,11 @@ namespace SarahaWithGUI {
 			// 
 			this->MsgsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->MsgsPanel->Controls->Add(this->msgPanel1);
 			this->MsgsPanel->Location = System::Drawing::Point(0, 135);
 			this->MsgsPanel->Name = L"MsgsPanel";
 			this->MsgsPanel->Size = System::Drawing::Size(879, 408);
 			this->MsgsPanel->TabIndex = 104;
-			// 
-			// msgPanel1
-			// 
-			this->msgPanel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(67)), static_cast<System::Int32>(static_cast<System::Byte>(106)),
-				static_cast<System::Int32>(static_cast<System::Byte>(103)));
-			this->msgPanel1->Controls->Add(this->MsgContent1);
-			this->msgPanel1->Location = System::Drawing::Point(29, 10);
-			this->msgPanel1->Margin = System::Windows::Forms::Padding(29, 10, 3, 3);
-			this->msgPanel1->Name = L"msgPanel1";
-			this->msgPanel1->Size = System::Drawing::Size(821, 70);
-			this->msgPanel1->TabIndex = 1;
-			// 
-			// MsgContent1
-			// 
-			this->MsgContent1->AutoSize = true;
-			this->MsgContent1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->MsgContent1->ForeColor = System::Drawing::Color::White;
-			this->MsgContent1->Location = System::Drawing::Point(26, 13);
-			this->MsgContent1->MaximumSize = System::Drawing::Size(771, 48);
-			this->MsgContent1->Name = L"MsgContent1";
-			this->MsgContent1->Size = System::Drawing::Size(132, 24);
-			this->MsgContent1->TabIndex = 106;
-			this->MsgContent1->Text = L"MsgContent1";
+			CreateMessageLayout(MsgsPanel);
 			// 
 			// SentButton
 			// 
@@ -345,9 +317,6 @@ namespace SarahaWithGUI {
 			this->Load += gcnew System::EventHandler(this, &UserForm::UserForm_Load);
 			this->Options->ResumeLayout(false);
 			this->InboxPanel->ResumeLayout(false);
-			this->MsgsPanel->ResumeLayout(false);
-			this->msgPanel1->ResumeLayout(false);
-			this->msgPanel1->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -540,14 +509,11 @@ private: System::Void LogoutButton_Click(System::Object^ sender, System::EventAr
 
 		   return MainPanel;
 	   }
-	   void CreateMessageLayout()
+	   void CreateMessageLayout(FlowLayoutPanel^ container)
 	   {
-		   //Create Message Layout
-		   FlowLayoutPanel^ container = gcnew FlowLayoutPanel();
-
 		   //Flow Layout Properties
+		   container->Location = Point(110, 135);
 		   container->FlowDirection = FlowDirection::TopDown;
-		   container->Dock = DockStyle::Fill;
 		   container->AutoScroll = true;
 		   container->WrapContents = false;
 
