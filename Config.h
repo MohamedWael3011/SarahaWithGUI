@@ -43,5 +43,5 @@ public:
 	UserAccount* GetUserAccount(int id);
 	int PopNextAccountID();
 
-	static void AppendMessage(UserAccount& acc, int senderid, Message& msg, bool sent);
+	static void AppendMessage(UserAccount& acc, int senderid, UserMessage& msg, bool sent);
 };

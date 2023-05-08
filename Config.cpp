@@ -142,11 +142,11 @@ void Config::LoadBlocks(UserAccount& acc, int idx, IniFile& cfg)
 void Config::LoadMessages(UserAccount& acc, int idx, IniFile& cfg)
 {
 	// clear
-	stack<pair<int, Message>>().swap(acc.SentMessages);
+	stack<pair<int, UserMessage>>().swap(acc.SentMessages);
 	acc.ReceivedMessages.clear();
 
 	// load
-	Message msg;
+	UserMessage msg;
 	int msgcnt = cfg.ReadKeyInt("Account_Sent_Messages_Count_" + to_string(idx));
 
 	for (int i = 1; i <= msgcnt; ++i)
@@ -175,10 +175,10 @@ void Config::LoadMessages(UserAccount& acc, int idx, IniFile& cfg)
 void Config::LoadFavoriteMessages(UserAccount& acc, int idx, IniFile& cfg)
 {
 	// clear
-	queue<pair<int, Message>>().swap(acc.Favorites);
+	queue<pair<int, UserMessage>>().swap(acc.Favorites);
 
 	// load
-	Message msg;
+	UserMessage msg;
 
 	int msgcnt = cfg.ReadKeyInt("Account_Favorites_Count_" + to_string(idx));
 
@@ -189,7 +189,7 @@ void Config::LoadFavoriteMessages(UserAccount& acc, int idx, IniFile& cfg)
 		msg.SentDate = StringToDate(cfg.ReadKey("Account_Favorite_Date_" + to_string(idx) + '_' + to_string(i)));
 		msg.Seen = cfg.ReadKeyInt("Account_Favorite_Seen_" + to_string(idx) + '_' + to_string(i));
 
-		acc.Favorites.push(pair<int, Message>(cfg.ReadKeyInt("Account_Favorite_Sender_" + to_string(idx) + '_' + to_string(i)), msg));
+		acc.Favorites.push(pair<int, UserMessage>(cfg.ReadKeyInt("Account_Favorite_Sender_" + to_string(idx) + '_' + to_string(i)), msg));
 	}
 }
 
@@ -235,10 +235,10 @@ void Config::WriteBlocks(UserAccount& acc, int idx, IniFile& cfg)
 
 void Config::WriteMessages(UserAccount& acc, int idx, IniFile& cfg)
 {
-	stack<pair<int, Message>> sent = acc.SentMessages;
-	pair<int, Message> sentmsg;
-	Message msg;
-	stack<Message> msgs;
+	stack<pair<int, UserMessage>> sent = acc.SentMessages;
+	pair<int, UserMessage> sentmsg;
+	UserMessage msg;
+	stack<UserMessage> msgs;
 
 	size_t sent_size = sent.size(), recv_size = 0, msgcnt;
 	int i = sent_size;
@@ -287,8 +287,8 @@ void Config::WriteMessages(UserAccount& acc, int idx, IniFile& cfg)
 void Config::WriteFavoriteMessages(UserAccount& acc, int idx, IniFile& cfg)
 {
 	int i = 1;
-	pair<int, Message> favorite;
-	queue<pair<int, Message>> favorites = acc.Favorites;
+	pair<int, UserMessage> favorite;
+	queue<pair<int, UserMessage>> favorites = acc.Favorites;
 
 	cfg.WriteKeyInt("Account_Favorites_Count_" + to_string(idx), favorites.size());
 
@@ -350,10 +350,10 @@ int Config::PopNextAccountID(void)
 	return m_nextaccountid++;
 }
 
-void Config::AppendMessage(UserAccount& acc, int senderid, Message& msg, bool sent)
+void Config::AppendMessage(UserAccount& acc, int senderid, UserMessage& msg, bool sent)
 {
 	if (sent)
-		acc.SentMessages.push(pair<int, Message>(senderid, msg));
+		acc.SentMessages.push(pair<int, UserMessage>(senderid, msg));
 	else
 	{
 		auto it = acc.ReceivedMessages.find(senderid);
@@ -361,7 +361,7 @@ void Config::AppendMessage(UserAccount& acc, int senderid, Message& msg, bool se
 			it->second.push(msg);
 		else
 		{
-			stack<Message> msgs;
+			stack<UserMessage> msgs;
 			msgs.push(msg);
 
 			acc.ReceivedMessages[senderid] = msgs;

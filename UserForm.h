@@ -23,6 +23,7 @@ namespace SarahaWithGUI {
 
 	private: System::Windows::Forms::FlowLayoutPanel^  FavoritesPanel;
 	private: System::Windows::Forms::FlowLayoutPanel^  SendPanel;
+
 	private: System::Windows::Forms::Form^ otherform;
 
 	public:
@@ -86,7 +87,7 @@ namespace SarahaWithGUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
 			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
 			this->LogoutButton = (gcnew System::Windows::Forms::Button());
@@ -224,7 +225,6 @@ namespace SarahaWithGUI {
 			this->MsgsPanel->Name = L"MsgsPanel";
 			this->MsgsPanel->Size = System::Drawing::Size(879, 408);
 			this->MsgsPanel->TabIndex = 104;
-			CreateMessageLayout(MsgsPanel);
 			// 
 			// SentButton
 			// 
@@ -243,6 +243,7 @@ namespace SarahaWithGUI {
 			this->SentButton->TabIndex = 103;
 			this->SentButton->Text = L"Sent";
 			this->SentButton->UseVisualStyleBackColor = false;
+			this->SentButton->Click += gcnew System::EventHandler(this, &UserForm::SentButton_Click);
 			// 
 			// ReceivedButton
 			// 
@@ -261,6 +262,7 @@ namespace SarahaWithGUI {
 			this->ReceivedButton->TabIndex = 102;
 			this->ReceivedButton->Text = L"Received";
 			this->ReceivedButton->UseVisualStyleBackColor = false;
+			this->ReceivedButton->Click += gcnew System::EventHandler(this, &UserForm::ReceivedButton_Click);
 			// 
 			// button1
 			// 
@@ -303,8 +305,8 @@ namespace SarahaWithGUI {
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->ClientSize = System::Drawing::Size(988, 546);
-			this->Controls->Add(this->InboxPanel);
 			this->Controls->Add(this->FavoritesPanel);
+			this->Controls->Add(this->InboxPanel);
 			this->Controls->Add(this->ContactsPanel);
 			this->Controls->Add(this->SendPanel);
 			this->Controls->Add(this->Options);
@@ -327,12 +329,13 @@ namespace SarahaWithGUI {
 	private: System::Void UserForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
 		InboxButton->Image = System::Drawing::Image::FromFile("img/SelectedInbox.png");
-		ReceivedButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(67)), static_cast<System::Int32>(static_cast<System::Byte>(106)),
-			static_cast<System::Int32>(static_cast<System::Byte>(103)));
 
 		//load panels
 		ShowPanels(false);
 		InboxButton_MouseClick(nullptr, nullptr);
+
+		//load messages
+		ReceivedButton_Click(nullptr, nullptr);
 	}
 
 	private: System::Void UserForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e)
@@ -408,6 +411,10 @@ private: System::Void FavoriteButton_Click(System::Object^ sender, System::Event
 	resetButtons();
 	FavoriteButton->Image = System::Drawing::Image::FromFile("img/SelectedFavorite.png");
 	SelectPanel(FavoritesPanel);
+
+	//reload favorites
+	FavoritesPanel->Controls->Clear();
+	current_user->ViewFavorites(FavoritesPanel);
 }
 
 private: System::Void LogoutButton_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -415,117 +422,24 @@ private: System::Void LogoutButton_Click(System::Object^ sender, System::EventAr
 	otherform->Show();
 }
 
-	   Panel^ CreateMessageBox(String^ message)
-	   {
-		   Panel^ messageContainer = gcnew Panel();
-		   RichTextBox^ messageBox = gcnew RichTextBox();
+private: System::Void ReceivedButton_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	ReceivedButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
+	SentButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
 
-		   int wordCount = 0;
-		 
-		   String^ messageContent = message;
+	//reload msgs
+	MsgsPanel->Controls->Clear();
+	current_user->ViewReceivedMessages(MsgsPanel);
+}
 
-		   //Limiting the number of characters per line to 45
-		   cli::array<String^>^ words = messageContent->Split();
-		   String^ processedText = "";
-		   for each (String ^ word in words)
-		   {
-			   if (wordCount > 15)
-			   {
-				   processedText += "\n";
-				   wordCount = 0;
-			   }
-			   processedText += word + " ";
-			   wordCount++;
-		   }
+private: System::Void SentButton_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	ReceivedButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
+	SentButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
 
-		   messageBox->Text = processedText->Trim();
-
-		   //Measure size of text in textbox
-		   Drawing::Size size = TextRenderer::MeasureText(messageBox->Text, messageBox->Font);
-
-		   // Adjust the size of the textbox to fit the text
-		   messageBox->Width = size.Width;
-		   messageBox->Height = size.Height;
-
-		   //Adjust the size of the panel to fit the textbox
-		   messageContainer->Width = messageBox->Width + 20;
-		   messageContainer->Height = messageBox->Height + 20;
-
-		   //Properties for Panel
-		   messageContainer->BorderStyle = BorderStyle::None;
-		   messageContainer->BackColor = Color::DarkSlateGray;
-		   messageContainer->Padding = System::Windows::Forms::Padding(10);
-
-		   //Properties for Textbox
-		   messageBox->BorderStyle = BorderStyle::None;
-		   messageBox->BackColor = Color::DarkSlateGray;
-		   messageBox->Dock = DockStyle::Fill;
-		   messageBox->ForeColor = Color::White;
-		   messageBox->Multiline = true;
-		   messageBox->ReadOnly = true;
-		   messageBox->WordWrap = true;
-
-		   //Add the textbox inside panel
-		   messageContainer->Controls->Add(messageBox);
-
-		   return messageContainer;
-	   }
-	   Panel^ CreateUIDPanel(String^ ID)
-	   {
-		   Panel^ uIDContainer = gcnew Panel();
-		   Label^ uIDLabel = gcnew Label();
-		   TextBox^ uID = gcnew TextBox();
-
-		   //Label for UID
-		   uIDLabel->Text = "By UID: " + ID;
-		   uIDLabel->ForeColor = Color::White;
-
-		   //Properties for Panel
-		   uIDContainer->Width = uIDLabel->Width;
-		   uIDContainer->Height = uIDLabel->Height;
-		   uIDContainer->BorderStyle = BorderStyle::None;
-		   uIDContainer->BackColor = Color::Black;
-		   uIDContainer->AutoSize = true;
-
-		   //Adding the label inside panel
-		   uIDContainer->Controls->Add(uIDLabel);
-
-		   return uIDContainer;
-	   }
-	   Panel^ CreateMainMessagePanel(String^ message, String^ ID)
-	   {
-		   Panel^ MainPanel = gcnew Panel();
-		   Panel^ MessageBoxPanel = CreateMessageBox(message);
-		   Panel^ UIDPanel = CreateUIDPanel(ID);
-
-		   //Properties of Main Panel
-		   MainPanel->Width = MessageBoxPanel->Width;
-		   UIDPanel->Location = Point(0, MessageBoxPanel->Height);
-		   MainPanel->AutoSize = true;
-
-		   //Add Panels into Main Panel
-		   MainPanel->Controls->Add(MessageBoxPanel);
-		   MainPanel->Controls->Add(UIDPanel);
-
-		   return MainPanel;
-	   }
-	   void CreateMessageLayout(FlowLayoutPanel^ container)
-	   {
-		   //Flow Layout Properties
-		   container->Location = Point(110, 135);
-		   container->FlowDirection = FlowDirection::TopDown;
-		   container->AutoScroll = true;
-		   container->WrapContents = false;
-
-		   //Add the Messages
-		   //----This is for Testing---
-		   container->Controls->Add(CreateMainMessagePanel("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", "1111"));
-		   container->Controls->Add(CreateMainMessagePanel("Hello Karim, Nice to Meet you. I'm Chehab", "2222"));
-		   container->Controls->Add(CreateMainMessagePanel(".", "3333"));
-		   container->Controls->Add(CreateMainMessagePanel("Je suis Fouad", "4444"));
-		   container->Controls->Add(CreateMainMessagePanel("sdfsdfsd", "5555"));
-		   //--------------------------
-		   this->Controls->Add(container);
-	   }
+	//reload msgs
+	MsgsPanel->Controls->Clear();
+	current_user->ViewSentMessages(MsgsPanel);
+}
 };
 }

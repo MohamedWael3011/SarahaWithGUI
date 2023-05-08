@@ -1,6 +1,10 @@
 #pragma once
 #include "essentials.h"
-#include "Message.h"
+#include "UserMessage.h"
+
+using namespace System;
+using namespace System::Windows::Forms;
+using namespace System::Drawing;
 
 class UserAccount
 {
@@ -11,9 +15,9 @@ private:
 public:
 	set<int> Contacts;
 	set<int> Blocked;
-	stack<pair<int, Message>> SentMessages;
-	unordered_map<int, stack<Message>> ReceivedMessages;
-	queue<pair<int, Message>> Favorites;
+	stack<pair<int, UserMessage>> SentMessages;
+	unordered_map<int, stack<UserMessage>> ReceivedMessages;
+	queue<pair<int, UserMessage>> Favorites;
 
 public:
 	UserAccount();
@@ -26,15 +30,16 @@ public:
 	bool Block(int User_ID);
 	bool Unblock(int User_ID);
 	char SendUserMessage(UserAccount* recipient, string content);
-	bool PopMessage(UserAccount* user);
-	void ViewContacts(); //ordered by most messages
-	void ViewMessages();
-	bool ViewMessages(int User_ID);
+	bool PopUserMessage(UserAccount* user);
+	void ViewContacts(); //ordered by most UserMessages
+	void ViewReceivedMessages(FlowLayoutPanel^ container);
+	void ViewSentMessages(FlowLayoutPanel^ container);
+	bool ViewUserMessages(FlowLayoutPanel^ container, int User_ID);
 	bool PutFavorite(int User_ID, int Msg_Index);
 	bool RemoveOldestFavorite(int User_ID);
-	bool ViewFavorites();
+	bool ViewFavorites(FlowLayoutPanel^ container);
 
-	int GetMessagesFromUser(UserAccount* user);
+	int GetUserMessagesFromUser(UserAccount* user);
 	bool GetContact(int User_ID);
 	int ID() const;
 	string Username() const;

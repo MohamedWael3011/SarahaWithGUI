@@ -1,7 +1,7 @@
 #pragma once
 #include "essentials.h"
 
-struct Message
+struct UserMessage
 {
 	int Index;
 	string Content;
