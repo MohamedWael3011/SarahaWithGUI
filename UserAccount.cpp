@@ -50,7 +50,7 @@ bool UserAccount::AddContact(int User_ID) {
 
 		if (Contacts.find(User_ID) != Contacts.end()) {
 
-			cout << User_ID<<" is already in your contacts list.\n";
+			cout << User_ID << " is already in your contacts list.\n";
 		}
 		else {
 
@@ -102,11 +102,11 @@ char UserAccount::SendUserMessage(UserAccount* recipient, string content)
 	SYSTEMTIME time;
 	GetSystemTime(&time);
 	UserMessage msg{ 0, content, time };
-	
+
 	// >> SENDER SIDE <<
 	msg.Index = (!SentMessages.empty() ? SentMessages.top().second.Index : 0) + 1;
 	SentMessages.push(pair<int, UserMessage>(recipient->m_id, msg));
-	
+
 	// >> RECIPIENT/RECEIVER SIDE <<
 	auto it = recipient->ReceivedMessages.find(m_id);
 
@@ -146,11 +146,11 @@ bool UserAccount::PopUserMessage(UserAccount* user) {
 	}
 }
 
-void UserAccount::ViewContacts() { 
-	set<int>::iterator itr;		   	
-	vector<pair<int,int>>ContactTotalUserMessages;
+void UserAccount::ViewContacts() {
+	set<int>::iterator itr;
+	vector<pair<int, int>>ContactTotalUserMessages;
 
-	for (itr = Contacts.begin();itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
+	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
 	{
 		int ContactID = *itr;
 		int ContactUserMessages = ReceivedMessages[ContactID].size();
@@ -260,7 +260,7 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool buttons)
 		ContactButton->Size = Size(100, 25);
 		ContactButton->BackColor = Color::Transparent;
 		ContactButton->Location = Point(uDateLabel->Location.X + uDateLabel->Width + 25, -5);
-		
+
 		FavoriteButton->Text = "add favorite";
 		FavoriteButton->Size = Size(100, 25);
 		FavoriteButton->BackColor = Color::Transparent;
