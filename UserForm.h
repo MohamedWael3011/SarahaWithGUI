@@ -21,8 +21,16 @@ namespace SarahaWithGUI {
 	private: Control^ m_selectedpanel;
 
 
-	private: System::Windows::Forms::FlowLayoutPanel^  FavoritesPanel;
-	private: System::Windows::Forms::FlowLayoutPanel^  SendPanel;
+	private: System::Windows::Forms::FlowLayoutPanel^ FavoritesPanel;
+	private: System::Windows::Forms::Panel^ SendPanel;
+	private: System::Windows::Forms::TextBox^ UserIdSendMessage;
+	private: System::Windows::Forms::Button^ SendMessageButton;
+
+	private: System::Windows::Forms::RichTextBox^ SendMessageText;
+	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Label^ label1;
+
+
 
 	private: System::Windows::Forms::Form^ otherform;
 
@@ -63,8 +71,8 @@ namespace SarahaWithGUI {
 
 	private: System::Windows::Forms::Button^ ReceivedButton;
 	private: System::Windows::Forms::Button^ FavoriteButton;
-	private: System::Windows::Forms::FlowLayoutPanel^  MsgsPanel;
-	private: System::Windows::Forms::FlowLayoutPanel^  ContactsPanel;
+	private: System::Windows::Forms::FlowLayoutPanel^ MsgsPanel;
+	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
 
 
 
@@ -78,7 +86,7 @@ namespace SarahaWithGUI {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -87,14 +95,19 @@ namespace SarahaWithGUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
 			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
 			this->LogoutButton = (gcnew System::Windows::Forms::Button());
 			this->SendButton = (gcnew System::Windows::Forms::Button());
 			this->ContactsButton = (gcnew System::Windows::Forms::Button());
 			this->InboxButton = (gcnew System::Windows::Forms::Button());
-			this->SendPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->SendPanel = (gcnew System::Windows::Forms::Panel());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->SendMessageButton = (gcnew System::Windows::Forms::Button());
+			this->SendMessageText = (gcnew System::Windows::Forms::RichTextBox());
+			this->UserIdSendMessage = (gcnew System::Windows::Forms::TextBox());
 			this->InboxPanel = (gcnew System::Windows::Forms::Panel());
 			this->MsgsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->SentButton = (gcnew System::Windows::Forms::Button());
@@ -103,6 +116,7 @@ namespace SarahaWithGUI {
 			this->FavoritesPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->Options->SuspendLayout();
+			this->SendPanel->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -193,12 +207,69 @@ namespace SarahaWithGUI {
 			// 
 			this->SendPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->SendPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
+			this->SendPanel->Controls->Add(this->label2);
+			this->SendPanel->Controls->Add(this->label1);
+			this->SendPanel->Controls->Add(this->SendMessageButton);
+			this->SendPanel->Controls->Add(this->SendMessageText);
+			this->SendPanel->Controls->Add(this->UserIdSendMessage);
 			this->SendPanel->Location = System::Drawing::Point(109, 0);
 			this->SendPanel->Name = L"SendPanel";
 			this->SendPanel->Size = System::Drawing::Size(879, 546);
 			this->SendPanel->TabIndex = 106;
 			this->SendPanel->Visible = false;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
+				static_cast<System::Int32>(static_cast<System::Byte>(140)));
+			this->label2->Location = System::Drawing::Point(27, 135);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(118, 29);
+			this->label2->TabIndex = 4;
+			this->label2->Text = L"Message:";
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
+				static_cast<System::Int32>(static_cast<System::Byte>(140)));
+			this->label1->Location = System::Drawing::Point(27, 53);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(99, 29);
+			this->label1->TabIndex = 3;
+			this->label1->Text = L"User ID:";
+			// 
+			// SendMessageButton
+			// 
+			this->SendMessageButton->Location = System::Drawing::Point(662, 449);
+			this->SendMessageButton->Name = L"SendMessageButton";
+			this->SendMessageButton->Size = System::Drawing::Size(108, 23);
+			this->SendMessageButton->TabIndex = 2;
+			this->SendMessageButton->Text = L"Send";
+			this->SendMessageButton->UseVisualStyleBackColor = true;
+			this->SendMessageButton->Click += gcnew System::EventHandler(this, &UserForm::SendMessageButton_Click);
+			// 
+			// SendMessageText
+			// 
+			this->SendMessageText->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->SendMessageText->Location = System::Drawing::Point(151, 135);
+			this->SendMessageText->Name = L"SendMessageText";
+			this->SendMessageText->Size = System::Drawing::Size(619, 271);
+			this->SendMessageText->TabIndex = 1;
+			this->SendMessageText->Text = L"";
+			// 
+			// UserIdSendMessage
+			// 
+			this->UserIdSendMessage->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->UserIdSendMessage->Location = System::Drawing::Point(151, 57);
+			this->UserIdSendMessage->Name = L"UserIdSendMessage";
+			this->UserIdSendMessage->Size = System::Drawing::Size(100, 26);
+			this->UserIdSendMessage->TabIndex = 0;
 			// 
 			// InboxPanel
 			// 
@@ -209,9 +280,9 @@ namespace SarahaWithGUI {
 			this->InboxPanel->Controls->Add(this->ReceivedButton);
 			this->InboxPanel->Controls->Add(this->button1);
 			this->InboxPanel->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->InboxPanel->Location = System::Drawing::Point(109, 0);
+			this->InboxPanel->Location = System::Drawing::Point(0, 0);
 			this->InboxPanel->Name = L"InboxPanel";
-			this->InboxPanel->Size = System::Drawing::Size(879, 546);
+			this->InboxPanel->Size = System::Drawing::Size(988, 546);
 			this->InboxPanel->TabIndex = 1;
 			this->InboxPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
 			this->InboxPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
@@ -221,9 +292,9 @@ namespace SarahaWithGUI {
 			// 
 			this->MsgsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->MsgsPanel->Location = System::Drawing::Point(0, 135);
+			this->MsgsPanel->Location = System::Drawing::Point(115, 138);
 			this->MsgsPanel->Name = L"MsgsPanel";
-			this->MsgsPanel->Size = System::Drawing::Size(879, 408);
+			this->MsgsPanel->Size = System::Drawing::Size(873, 408);
 			this->MsgsPanel->TabIndex = 104;
 			// 
 			// SentButton
@@ -237,7 +308,7 @@ namespace SarahaWithGUI {
 			this->SentButton->ForeColor = System::Drawing::Color::WhiteSmoke;
 			this->SentButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"SentButton.Image")));
 			this->SentButton->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			this->SentButton->Location = System::Drawing::Point(451, 57);
+			this->SentButton->Location = System::Drawing::Point(597, 57);
 			this->SentButton->Name = L"SentButton";
 			this->SentButton->Size = System::Drawing::Size(336, 43);
 			this->SentButton->TabIndex = 103;
@@ -256,7 +327,7 @@ namespace SarahaWithGUI {
 			this->ReceivedButton->ForeColor = System::Drawing::Color::WhiteSmoke;
 			this->ReceivedButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ReceivedButton.Image")));
 			this->ReceivedButton->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			this->ReceivedButton->Location = System::Drawing::Point(55, 57);
+			this->ReceivedButton->Location = System::Drawing::Point(160, 57);
 			this->ReceivedButton->Name = L"ReceivedButton";
 			this->ReceivedButton->Size = System::Drawing::Size(336, 43);
 			this->ReceivedButton->TabIndex = 102;
@@ -273,7 +344,7 @@ namespace SarahaWithGUI {
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button1->ForeColor = System::Drawing::Color::White;
-			this->button1->Location = System::Drawing::Point(847, 3);
+			this->button1->Location = System::Drawing::Point(956, 3);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(32, 32);
 			this->button1->TabIndex = 101;
@@ -305,11 +376,11 @@ namespace SarahaWithGUI {
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->ClientSize = System::Drawing::Size(988, 546);
-			this->Controls->Add(this->FavoritesPanel);
-			this->Controls->Add(this->InboxPanel);
-			this->Controls->Add(this->ContactsPanel);
-			this->Controls->Add(this->SendPanel);
 			this->Controls->Add(this->Options);
+			this->Controls->Add(this->InboxPanel);
+			this->Controls->Add(this->SendPanel);
+			this->Controls->Add(this->FavoritesPanel);
+			this->Controls->Add(this->ContactsPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"UserForm";
@@ -318,6 +389,8 @@ namespace SarahaWithGUI {
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &UserForm::UserForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &UserForm::UserForm_Load);
 			this->Options->ResumeLayout(false);
+			this->SendPanel->ResumeLayout(false);
+			this->SendPanel->PerformLayout();
 			this->InboxPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 
@@ -326,7 +399,7 @@ namespace SarahaWithGUI {
 
 #pragma endregion
 
-	private: System::Void UserForm_Load(System::Object^  sender, System::EventArgs^  e)
+	private: System::Void UserForm_Load(System::Object^ sender, System::EventArgs^ e)
 	{
 		InboxButton->Image = System::Drawing::Image::FromFile("img/SelectedInbox.png");
 
@@ -338,108 +411,130 @@ namespace SarahaWithGUI {
 		ReceivedButton_Click(nullptr, nullptr);
 	}
 
-	private: System::Void UserForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e)
+	private: System::Void UserForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
 	{
 		cfg.Save();
 	}
 
-private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
-	Application::Exit();
-}
-
-	   bool Drag;
-	   Point offset;
-private: System::Void UserForm_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	Drag = true;
-	offset.X = e->X;
-	offset.Y = e->Y;
-
-}
-private: System::Void UserForm_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	if (Drag)
-	{
-		Point Curr = PointToScreen(Point(e->X, e->Y));
-		Location = Point(Curr.X - offset.X, Curr.Y - offset.Y);
+	private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
+		Application::Exit();
 	}
-}
-private: System::Void UserForm_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	Drag = false;
-}
+
+		   bool Drag;
+		   Point offset;
+	private: System::Void UserForm_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		Drag = true;
+		offset.X = e->X;
+		offset.Y = e->Y;
+
+	}
+	private: System::Void UserForm_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		if (Drag)
+		{
+			Point Curr = PointToScreen(Point(e->X, e->Y));
+			Location = Point(Curr.X - offset.X, Curr.Y - offset.Y);
+		}
+	}
+	private: System::Void UserForm_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		Drag = false;
+	}
 
 
-void resetButtons() {
-	InboxButton->Image = System::Drawing::Image::FromFile("img/Inbox.png");
-	ContactsButton->Image = System::Drawing::Image::FromFile("img/Contacts.png");
-	SendButton->Image = System::Drawing::Image::FromFile("img/Send.png");
-	FavoriteButton->Image = System::Drawing::Image::FromFile("img/Favorite.png");
-}
+		   void resetButtons() {
+			   InboxButton->Image = System::Drawing::Image::FromFile("img/Inbox.png");
+			   ContactsButton->Image = System::Drawing::Image::FromFile("img/Contacts.png");
+			   SendButton->Image = System::Drawing::Image::FromFile("img/Send.png");
+			   FavoriteButton->Image = System::Drawing::Image::FromFile("img/Favorite.png");
+		   }
 
-private: System::Void ShowPanels(bool visible)
-{
-	this->InboxPanel->Visible = visible;
-	this->ContactsPanel->Visible = visible;
-	this->SendPanel->Visible = visible;
-	this->FavoritesPanel->Visible = visible;
-}
+	private: System::Void ShowPanels(bool visible)
+	{
+		this->InboxPanel->Visible = visible;
+		this->ContactsPanel->Visible = visible;
+		this->SendPanel->Visible = visible;
+		this->FavoritesPanel->Visible = visible;
+	}
 
-private: System::Void SelectPanel(Control^ panel)
-{
-	if (m_selectedpanel != nullptr)
-		m_selectedpanel->Hide();
+	private: System::Void SelectPanel(Control^ panel)
+	{
+		if (m_selectedpanel != nullptr)
+			m_selectedpanel->Hide();
 
-	panel->Show();
-	m_selectedpanel = panel;
-}
+		panel->Show();
+		m_selectedpanel = panel;
+	}
 
-private: System::Void InboxButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
-	resetButtons();
-	InboxButton->Image = System::Drawing::Image::FromFile("img/SelectedInbox.png");
-	SelectPanel(InboxPanel);
-}
-private: System::Void ContactsButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
-	resetButtons();
-	ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
-	SelectPanel(ContactsPanel);
-}
-private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
-	resetButtons();
-	SendButton->Image = System::Drawing::Image::FromFile("img/SelectedSend.png");
-	SelectPanel(SendPanel);
-}
+	private: System::Void InboxButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
+		resetButtons();
+		InboxButton->Image = System::Drawing::Image::FromFile("img/SelectedInbox.png");
+		SelectPanel(InboxPanel);
+	}
+	private: System::Void ContactsButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
+		resetButtons();
+		ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
+		SelectPanel(ContactsPanel);
+	}
+	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
+		resetButtons();
+		SendButton->Image = System::Drawing::Image::FromFile("img/SelectedSend.png");
+		SelectPanel(SendPanel);
+	}
 
-private: System::Void FavoriteButton_Click(System::Object^ sender, System::EventArgs^ e) {
-	resetButtons();
-	FavoriteButton->Image = System::Drawing::Image::FromFile("img/SelectedFavorite.png");
-	SelectPanel(FavoritesPanel);
+	private: System::Void FavoriteButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		resetButtons();
+		FavoriteButton->Image = System::Drawing::Image::FromFile("img/SelectedFavorite.png");
+		SelectPanel(FavoritesPanel);
 
-	//reload favorites
-	FavoritesPanel->Controls->Clear();
-	current_user->ViewFavorites(FavoritesPanel);
-}
+		//reload favorites
+		FavoritesPanel->Controls->Clear();
+		current_user->ViewFavorites(FavoritesPanel);
+	}
 
-private: System::Void LogoutButton_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	otherform->Show();
-}
+	private: System::Void LogoutButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		otherform->Show();
+	}
 
-private: System::Void ReceivedButton_Click(System::Object^  sender, System::EventArgs^  e)
-{
-	ReceivedButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
-	SentButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
+	private: System::Void ReceivedButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		ReceivedButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
+		SentButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
 
-	//reload msgs
-	MsgsPanel->Controls->Clear();
-	current_user->ViewReceivedMessages(MsgsPanel);
-}
+		//reload msgs
+		MsgsPanel->Controls->Clear();
+		current_user->ViewReceivedMessages(MsgsPanel);
+	}
 
-private: System::Void SentButton_Click(System::Object^  sender, System::EventArgs^  e)
-{
-	ReceivedButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
-	SentButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
+	private: System::Void SentButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		ReceivedButton->BackColor = System::Drawing::Color::FromArgb(64, 165, 140);
+		SentButton->BackColor = System::Drawing::Color::FromArgb(67, 106, 103);
 
-	//reload msgs
-	MsgsPanel->Controls->Clear();
-	current_user->ViewSentMessages(MsgsPanel);
-}
-};
+		//reload msgs
+		MsgsPanel->Controls->Clear();
+		current_user->ViewSentMessages(MsgsPanel);
+	}
+	private: System::Void SendMessageButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		int ID = stoi(SystemStringToCpp(UserIdSendMessage->Text));
+		char check = current_user->SendUserMessage(cfg.GetUserAccount(ID), SystemStringToCpp(SendMessageText->Text));
+		if (check == 1)
+		{
+			MessageBox::Show(CPPSTR2SYSTEM("This user does not exist"), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+
+		}
+		else if (check == 2)
+		{
+			MessageBox::Show(CPPSTR2SYSTEM("This contact is in your block list; you can't send him a message"), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+		else if (check == 3) {
+			MessageBox::Show(CPPSTR2SYSTEM("This user has you on his block list; you can't send him a message"), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+
+		}
+		MessageBox::Show(CPPSTR2SYSTEM("Message has been Sent"), "Success", MessageBoxButtons::OK, MessageBoxIcon::None);
+
+	}
+	};
 }

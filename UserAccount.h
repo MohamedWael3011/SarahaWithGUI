@@ -36,7 +36,7 @@ public:
 	void ViewSentMessages(FlowLayoutPanel^ container);
 	bool ViewUserMessages(FlowLayoutPanel^ container, int User_ID);
 	bool PutFavorite(int User_ID, int Msg_Index);
-	bool RemoveOldestFavorite(int User_ID);
+	bool RemoveOldestFavorite();
 	bool ViewFavorites(FlowLayoutPanel^ container);
 
 	int GetUserMessagesFromUser(UserAccount* user);

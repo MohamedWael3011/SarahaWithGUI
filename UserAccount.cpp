@@ -416,11 +416,41 @@ bool UserAccount::ViewUserMessages(FlowLayoutPanel^ container, int User_ID)
 
 }
 bool UserAccount::PutFavorite(int User_ID, int Msg_Index) {
-	return false;
-
+	if (ReceivedMessages.find(User_ID) == ReceivedMessages.end())
+	{
+		return false;
+	}
+	else
+	{
+		stack<UserMessage> chat = ReceivedMessages[User_ID];
+		while (!chat.empty())
+		{
+			if (chat.top().Index != Msg_Index)
+			{
+				chat.pop();
+			}
+			else
+			{
+				if (chat.top().IsFavorite == true)
+				{
+					cout << "This message is already a favourite";
+					return false;
+				}
+				else
+				{
+					chat.top().IsFavorite = true;
+					Favorites.emplace(User_ID, chat.top());
+					return true;
+				}
+			}
+		}
+	}
 }
-bool UserAccount::RemoveOldestFavorite(int User_ID) {
-	return false;
+bool UserAccount::RemoveOldestFavorite() {
+	if (Favorites.empty())
+		return false;
+	Favorites.pop();
+	return true;
 
 }
 
