@@ -199,7 +199,7 @@ Panel^ CreateMessageBox(String^ message)
 
 	String^ messageContent = message;
 
-	//Limiting the number of characters per line to 45
+	//Limiting the number of words per line to 15
 	cli::array<String^>^ words = messageContent->Split();
 	String^ processedText = "";
 	for each (String ^ word in words)
@@ -504,6 +504,33 @@ bool UserAccount::ViewFavorites(FlowLayoutPanel^ container)
 
 	queue<pair<int, UserMessage>> msgs = Favorites;
 	CreateMessageLayout(container, msgs, this);
+	return true;
+}
+
+bool UserAccount::DeleteSpecificFavorite(int senderID, int Msg_Index)
+{
+	//Checking if index is in bounds
+	if (Msg_Index < 0)
+		return false;
+
+	//Adding elements before location into temp q
+	queue<pair<int, UserMessage>> temp;
+
+	for (int i = 0; i < Favorites.size(); i++)
+	{
+		if (Favorites.front().first != senderID || Favorites.front().second.Index != Msg_Index)
+		{
+			temp.push(Favorites.front());
+		}
+		Favorites.pop();
+	}
+
+	//Pushing all elements from temp into main queue
+	while (!temp.empty())
+	{
+		Favorites.push(temp.front());
+		temp.pop();
+	}
 	return true;
 }
 

@@ -39,6 +39,7 @@ public:
 	bool PutFavorite(int User_ID, int Msg_Index);
 	bool RemoveOldestFavorite();
 	bool ViewFavorites(FlowLayoutPanel^ container);
+	bool DeleteSpecificFavorite(int senderID,int Msg_Index);
 
 	int GetUserMessagesFromUser(UserAccount* user);
 	bool GetContact(int User_ID);
