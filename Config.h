@@ -37,11 +37,13 @@ private:
 	void WriteFavoriteMessages(UserAccount& acc, int idx, IniFile& cfg);
 
 public:
+	void SetSentMsgsSeen(int Received_ID, vector<pair<UserMessage, int>> msgs, bool seen);
+
 	UserAccount* AccountExists(string username);
 	UserAccount* AccountExists(string username, const string& pw);
 
 	UserAccount* GetUserAccount(int id);
 	int PopNextAccountID();
 
-	static void AppendMessage(UserAccount& acc, int senderid, UserMessage& msg, bool sent);
+	static void AppendMessage(UserAccount& acc, int userid, UserMessage& msg, bool sent);
 };

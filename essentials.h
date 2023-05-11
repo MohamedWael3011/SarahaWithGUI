@@ -18,3 +18,4 @@ using namespace System::Runtime::InteropServices;
 #define CPPSTR2SYSTEM(str) gcnew String(str)
 
 string SystemStringToCpp(String^ str);
+string ReplaceAll(string& str, string toreplace, string tobereplaced);

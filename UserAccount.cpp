@@ -113,7 +113,7 @@ char UserAccount::SendUserMessage(UserAccount* recipient, string content)
 	// if received msgs from this user before
 	if (it != recipient->ReceivedMessages.end())
 	{
-		msg.Index = (!it->second.empty() ? it->second.top().Index : 0) + 1;
+		//msg.Index = (!it->second.empty() ? it->second.top().Index : 0) + 1;
 		it->second.push(msg);
 	}
 
@@ -143,6 +143,29 @@ bool UserAccount::PopUserMessage(UserAccount* user) {
 	else {
 		it->second.pop();
 		return true;
+	}
+}
+
+void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
+{
+	stack<pair<int, UserMessage>> sent;
+	pair<int, UserMessage> msg;
+
+	while (!SentMessages.empty())
+	{
+		msg = SentMessages.top();
+
+		if (msg.first == Receiver_ID && msg.second.Index == Msg_Index)
+			msg.second.Seen = true;
+
+		sent.push(msg);
+		SentMessages.pop();
+	}
+
+	while (!sent.empty())
+	{
+		SentMessages.push(sent.top());
+		sent.pop();
 	}
 }
 
@@ -223,7 +246,7 @@ Panel^ CreateMessageBox(String^ message)
 	return messageContainer;
 }
 
-Panel^ CreateUIDPanel(String^ ID, String^ date, bool buttons)
+Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen)
 {
 	Panel^ uIDContainer = gcnew Panel();
 	Label^ uIDLabel = gcnew Label();
@@ -231,12 +254,12 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool buttons)
 
 	//Label for UID
 	uIDLabel->Text = "By UID: " + ID;
-	uIDLabel->ForeColor = Color::White;
+	uIDLabel->ForeColor = seen ? Color::FromArgb(83, 189, 235) : Color::White;
 	uIDLabel->AutoSize = true;
 
 	//Label for date
 	uDateLabel->Text = date;
-	uDateLabel->ForeColor = Color::White;
+	uDateLabel->ForeColor = seen ? Color::FromArgb(83, 189, 235) : Color::White;
 	uDateLabel->Location = Point(uIDLabel->Width, 0);
 	uDateLabel->AutoSize = true;
 
@@ -251,33 +274,30 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool buttons)
 	uIDContainer->Controls->Add(uIDLabel);
 	uIDContainer->Controls->Add(uDateLabel);
 
-	if (buttons)
-	{
-		Button^ ContactButton = gcnew Button();
-		Button^ FavoriteButton = gcnew Button();
+	Button^ ContactButton = gcnew Button();
+	Button^ FavoriteButton = gcnew Button();
 
-		ContactButton->Text = "add contact";
-		ContactButton->Size = Size(100, 25);
-		ContactButton->BackColor = Color::Transparent;
-		ContactButton->Location = Point(uDateLabel->Location.X + uDateLabel->Width + 25, -5);
+	ContactButton->Text = "add contact";
+	ContactButton->Size = Size(100, 25);
+	ContactButton->BackColor = Color::Transparent;
+	ContactButton->Location = Point(uDateLabel->Location.X + uDateLabel->Width + 25, -5);
 
-		FavoriteButton->Text = "add favorite";
-		FavoriteButton->Size = Size(100, 25);
-		FavoriteButton->BackColor = Color::Transparent;
-		FavoriteButton->Location = Point(ContactButton->Location.X + ContactButton->Width + 2, -5);
+	FavoriteButton->Text = "add favorite";
+	FavoriteButton->Size = Size(100, 25);
+	FavoriteButton->BackColor = Color::Transparent;
+	FavoriteButton->Location = Point(ContactButton->Location.X + ContactButton->Width + 2, -5);
 
-		uIDContainer->Controls->Add(ContactButton);
-		uIDContainer->Controls->Add(FavoriteButton);
-	}
+	uIDContainer->Controls->Add(ContactButton);
+	uIDContainer->Controls->Add(FavoriteButton);
 
 	return uIDContainer;
 }
 
-Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool buttons = true)
+Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool seen)
 {
 	Panel^ MainPanel = gcnew Panel();
 	Panel^ MessageBoxPanel = CreateMessageBox(message);
-	Panel^ UIDPanel = CreateUIDPanel(ID, date, buttons);
+	Panel^ UIDPanel = CreateUIDPanel(ID, date, seen);
 
 	//Properties of Main Panel
 	MainPanel->Width = MessageBoxPanel->Width;
@@ -294,7 +314,7 @@ Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool bu
 void CreateMessageLayout(FlowLayoutPanel^ container, vector<pair<UserMessage, int>>& messages)
 {
 	//Flow Layout Properties
-	container->Location = Point(110, 135);
+	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -302,14 +322,14 @@ void CreateMessageLayout(FlowLayoutPanel^ container, vector<pair<UserMessage, in
 	//Add the Messages
 	for (int i = 0; i < messages.size(); i++)
 	{
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(messages[i].first.Content.c_str()), CPPSTR2SYSTEM(to_string(messages[i].second).c_str()), CPPSTR2SYSTEM(GetMessageDate(messages[i].first.SentDate).c_str())));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(messages[i].first.Content.c_str()), CPPSTR2SYSTEM(to_string(messages[i].second).c_str()), CPPSTR2SYSTEM(GetMessageDate(messages[i].first.SentDate).c_str()), messages[i].first.Seen));
 	}
 }
 
 void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& messages, int User_ID)
 {
 	//Flow Layout Properties
-	container->Location = Point(110, 135);
+	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -320,7 +340,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& message
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.Content.c_str()), CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.SentDate).c_str())));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.Content.c_str()), CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.SentDate).c_str()), message.Seen));
 		messages.pop();
 	}
 }
@@ -328,7 +348,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& message
 void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage>>& messages)
 {
 	//Flow Layout Properties
-	container->Location = Point(110, 135);
+	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -339,7 +359,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM(to_string(message.first).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str())));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM(to_string(message.first).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen));
 		messages.pop();
 	}
 }
@@ -347,6 +367,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage
 void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage>>& messages, UserAccount* acc)
 {
 	//Flow Layout Properties
+	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -357,31 +378,51 @@ void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.front();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM((acc->GetContact(message.first) ? (to_string(message.first) + " (contact)").c_str() : to_string(message.first).c_str())), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), false));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM((acc->GetContact(message.first) ? (to_string(message.first) + " (contact)").c_str() : to_string(message.first).c_str())), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen));
 		messages.pop();
 	}
 }
 
-void UserAccount::ViewReceivedMessages(FlowLayoutPanel^ container)
+vector<pair<UserMessage, int>> UserAccount::ViewReceivedMessages(FlowLayoutPanel^ container, bool full)
 {
+	vector <pair<UserMessage, int>> AllUserMessages;
+
 	if (ReceivedMessages.empty() == false)
 	{
-		vector <pair<UserMessage, int>> AllUserMessages;
-		stack<UserMessage> UserMessages;
+		UserMessage Message;
 		unordered_map<int, stack<UserMessage>>::iterator it;
 
 		for (it = ReceivedMessages.begin(); it != ReceivedMessages.end(); it++)
 		{
-			UserMessages = it->second;
+			stack<UserMessage> UserMessages;
+
+			while (!it->second.empty())
+			{
+				Message = it->second.top();
+
+				if (full == true || Message.Seen == false)
+					AllUserMessages.emplace_back(Message, it->first);
+
+				//set messages as seen for receiver
+				Message.Seen = true;
+				UserMessages.push(Message);
+
+				it->second.pop();
+			}
+
+			//re-set received messages (to update IsSeen)
 			while (!UserMessages.empty())
 			{
-				AllUserMessages.emplace_back(UserMessages.top(), it->first);
+				it->second.push(UserMessages.top());
 				UserMessages.pop();
 			}
 		}
+
 		std::sort(AllUserMessages.begin(), AllUserMessages.end(), compareByTime);
 		CreateMessageLayout(container, AllUserMessages);
 	}
+
+	return AllUserMessages;
 }
 
 void UserAccount::ViewSentMessages(FlowLayoutPanel^ container)

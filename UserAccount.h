@@ -31,8 +31,9 @@ public:
 	bool Unblock(int User_ID);
 	char SendUserMessage(UserAccount* recipient, string content);
 	bool PopUserMessage(UserAccount* user);
+	void SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen);
 	void ViewContacts(); //ordered by most UserMessages
-	void ViewReceivedMessages(FlowLayoutPanel^ container);
+	vector<pair<UserMessage, int>> ViewReceivedMessages(FlowLayoutPanel^ container, bool full = false);
 	void ViewSentMessages(FlowLayoutPanel^ container);
 	bool ViewUserMessages(FlowLayoutPanel^ container, int User_ID);
 	bool PutFavorite(int User_ID, int Msg_Index);

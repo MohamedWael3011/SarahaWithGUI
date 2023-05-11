@@ -805,9 +805,12 @@ private: System::Void Login_Click(System::Object^  sender, System::EventArgs^  e
 		MessageBox::Show("You have logged in successfully.", "Logged in", MessageBoxButtons::OK, MessageBoxIcon::Information);
 		Hide();
 
+		Login_Username->Text = "Username";
+		Login_Password->Text = "Password";
+		Login_Password->UseSystemPasswordChar = false;
+
 		UserForm^ form = gcnew UserForm(this);
 		form->Show();
-
 	}
 }
 	   bool Drag;
