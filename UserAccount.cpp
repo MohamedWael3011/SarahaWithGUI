@@ -515,8 +515,9 @@ bool UserAccount::DeleteSpecificFavorite(int senderID, int Msg_Index)
 
 	//Adding elements before location into temp q
 	queue<pair<int, UserMessage>> temp;
+	size_t size = Favorites.size();
 
-	for (int i = 0; i < Favorites.size(); i++)
+	for (int i = 0; i < size; i++)
 	{
 		if (Favorites.front().first != senderID || Favorites.front().second.Index != Msg_Index)
 		{
