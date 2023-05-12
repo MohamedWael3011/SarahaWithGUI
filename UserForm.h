@@ -32,6 +32,7 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^  ReceivedInboxBtn;
+	private: System::Windows::Forms::Button^ button2;
 
 
 	private: System::Windows::Forms::FlowLayoutPanel^  MsgsPanel;
@@ -118,9 +119,11 @@ namespace SarahaWithGUI {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->FavoritesPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->Options->SuspendLayout();
 			this->SendPanel->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
+			this->ContactsPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// Options
@@ -257,7 +260,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->label2->Location = System::Drawing::Point(27, 135);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(99, 25);
+			this->label2->Size = System::Drawing::Size(78, 20);
 			this->label2->TabIndex = 4;
 			this->label2->Text = L"Message:";
 			// 
@@ -270,7 +273,7 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(140)));
 			this->label1->Location = System::Drawing::Point(27, 53);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(83, 25);
+			this->label1->Size = System::Drawing::Size(68, 20);
 			this->label1->TabIndex = 3;
 			this->label1->Text = L"User ID:";
 			// 
@@ -303,7 +306,7 @@ namespace SarahaWithGUI {
 			this->UserIdSendMessage->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->UserIdSendMessage->Location = System::Drawing::Point(151, 57);
 			this->UserIdSendMessage->Name = L"UserIdSendMessage";
-			this->UserIdSendMessage->Size = System::Drawing::Size(100, 22);
+			this->UserIdSendMessage->Size = System::Drawing::Size(100, 20);
 			this->UserIdSendMessage->TabIndex = 0;
 			// 
 			// InboxPanel
@@ -427,6 +430,7 @@ namespace SarahaWithGUI {
 			// 
 			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
+			this->ContactsPanel->Controls->Add(this->button2);
 			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
 			this->ContactsPanel->Location = System::Drawing::Point(109, 0);
 			this->ContactsPanel->Name = L"ContactsPanel";
@@ -435,6 +439,16 @@ namespace SarahaWithGUI {
 			this->ContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
 			this->ContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->ContactsPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(3, 3);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->TabIndex = 0;
+			this->button2->Text = L"temp_button";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &UserForm::button2_Click);
 			// 
 			// UserForm
 			// 
@@ -458,6 +472,7 @@ namespace SarahaWithGUI {
 			this->SendPanel->ResumeLayout(false);
 			this->SendPanel->PerformLayout();
 			this->InboxPanel->ResumeLayout(false);
+			this->ContactsPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -630,5 +645,12 @@ namespace SarahaWithGUI {
 		}
 
 	}
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	current_user->AddContact(11111);
+	current_user->AddContact(50);
+
+
+}
 };
 }

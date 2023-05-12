@@ -435,6 +435,74 @@ void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage
 	}
 }
 
+Panel^ CreateContactPanel(String^ user_ID)
+{
+	Panel^ ContactPanel = gcnew Panel();
+	PictureBox^ ContactIcon = gcnew PictureBox();
+	Label^ uIDLabel = gcnew Label();
+	Label^ uIDNumberLabel = gcnew Label();
+	Button^ SeeMessages = gcnew Button();
+
+	//Properties for Panel
+	ContactPanel->Size = Drawing::Size(469, 61);
+	ContactPanel->BorderStyle = BorderStyle::FixedSingle;
+	ContactPanel->Padding = System::Windows::Forms::Padding(5);
+
+	//Properties of PictureBox
+	ContactIcon->Size = Drawing::Size(32, 32);
+	ContactIcon->Location = Point(15, 14);
+	//ContactIcon->BorderStyle = BorderStyle::FixedSingle;
+	ContactIcon->Image = System::Drawing::Image::FromFile("img/ProfileIcon.png");
+
+	//Properties of Labels
+	uIDLabel->ForeColor = Color::White;
+	uIDLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	uIDLabel->Size = Drawing::Size(34, 20);
+	uIDLabel->Location = Drawing::Point(66, 20);
+	uIDLabel->AutoSize = true;
+	uIDLabel->Text = "ID: ";
+
+	uIDNumberLabel->AutoSize = true;
+	uIDNumberLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	uIDNumberLabel->ForeColor = Drawing::Color::White;
+	uIDNumberLabel->Location = Drawing::Point(106, 20);
+	uIDNumberLabel->Size = Drawing::Size(203, 20);
+	uIDNumberLabel->Text = user_ID;
+
+	//Properties of Button
+	SeeMessages->AutoSize = true;
+	SeeMessages->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	SeeMessages->ForeColor = System::Drawing::Color::White;
+	SeeMessages->Location = System::Drawing::Point(370, 19);
+	SeeMessages->Size = System::Drawing::Size(89, 25);
+	SeeMessages->Text = "See Messages";
+	SeeMessages->UseVisualStyleBackColor = true;
+
+	ContactPanel->Controls->Add(ContactIcon);
+	ContactPanel->Controls->Add(uIDLabel);
+	ContactPanel->Controls->Add(uIDNumberLabel);
+	ContactPanel->Controls->Add(SeeMessages);
+
+	return ContactPanel;
+}
+
+void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID)
+{
+	//Properties of FlowLayoutPanel
+	container->Location = System::Drawing::Point(109, 0);
+	container->Size = System::Drawing::Size(879, 546);
+	container->FlowDirection = FlowDirection::TopDown;
+	container->Dock = DockStyle::Fill;
+	container->AutoScroll = true;
+	container->WrapContents = false;
+
+	//Testing
+	container->Controls->Add(CreateContactPanel(user_ID));
+
+}
+
 vector<pair<UserMessage, int>> UserAccount::ViewReceivedMessages(FlowLayoutPanel^ container, bool full)
 {
 	vector <pair<UserMessage, int>> AllUserMessages;
@@ -603,3 +671,5 @@ bool UserAccount::IsBlocked(int User_ID)
 {
 	return Blocked.find(User_ID) != Blocked.end();
 }
+
+
