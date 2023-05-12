@@ -133,6 +133,7 @@ bool UserAccount::PopUserMessage(UserAccount* user) {
 	// Pop from sender side
 	if (SentMessages.empty())
 		return false;
+	UserMessage tempMsg= SentMessages.top().second;
 	SentMessages.pop();
 
 	// Pop from receiver side
@@ -144,6 +145,8 @@ bool UserAccount::PopUserMessage(UserAccount* user) {
 		it->second.pop();
 		return true;
 	}
+	// Remove if in favorite
+	user->DeleteSpecificFavorite(user->m_id, tempMsg.Index);
 }
 
 void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
@@ -246,7 +249,7 @@ Panel^ CreateMessageBox(String^ message)
 	return messageContainer;
 }
 
-Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen)
+Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 {
 	Panel^ uIDContainer = gcnew Panel();
 	Label^ uIDLabel = gcnew Label();
@@ -276,28 +279,77 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen)
 
 	Button^ ContactButton = gcnew Button();
 	Button^ FavoriteButton = gcnew Button();
+	Button^ BlockButton = gcnew Button();
 
-	ContactButton->Text = "add contact";
-	ContactButton->Size = Size(100, 25);
+
+	ContactButton->Text = "";
 	ContactButton->BackColor = Color::Transparent;
 	ContactButton->Location = Point(uDateLabel->Location.X + uDateLabel->Width + 25, -5);
-
-	FavoriteButton->Text = "add favorite";
-	FavoriteButton->Size = Size(100, 25);
+	ContactButton->FlatAppearance->BorderSize = 0;
+	ContactButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	ContactButton->FlatAppearance->BorderSize = 0;
+	ContactButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	ContactButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	ContactButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	ContactButton->ForeColor = System::Drawing::Color::Transparent;
+	ContactButton->Image = System::Drawing::Image::FromFile("img/NotContact.png");
+	ContactButton->Name = L"ContactButton";
+	ContactButton->Size = System::Drawing::Size(28, 28);
+	ContactButton->TabIndex = 4;
+	///
+	FavoriteButton->Text = "";
 	FavoriteButton->BackColor = Color::Transparent;
 	FavoriteButton->Location = Point(ContactButton->Location.X + ContactButton->Width + 2, -5);
+	FavoriteButton->FlatAppearance->BorderSize = 0;
+	FavoriteButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	FavoriteButton->FlatAppearance->BorderSize = 0;
+	FavoriteButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	FavoriteButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	FavoriteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	FavoriteButton->ForeColor = System::Drawing::Color::Transparent;
+	FavoriteButton->Image = System::Drawing::Image::FromFile("img/NotFavorite.png");
+	FavoriteButton->Name = L"FavoriteButton";
+	FavoriteButton->Size = System::Drawing::Size(28, 28);
+	FavoriteButton->TabIndex = 4;
+//
+	BlockButton->Text = "";
+	BlockButton->BackColor = Color::Transparent;
+	BlockButton->Location = Point(FavoriteButton->Location.X + FavoriteButton->Width + 2, -5);
+	BlockButton->FlatAppearance->BorderSize = 0;
+	BlockButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	BlockButton->FlatAppearance->BorderSize = 0;
+	BlockButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	BlockButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+	BlockButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	BlockButton->ForeColor = System::Drawing::Color::Transparent;
+	BlockButton->Image = System::Drawing::Image::FromFile("img/NotBlocked.png");
+	BlockButton->Name = L"BlockButton";
+	BlockButton->Size = System::Drawing::Size(28, 28);
+	BlockButton->TabIndex = 4;
 
-	uIDContainer->Controls->Add(ContactButton);
-	uIDContainer->Controls->Add(FavoriteButton);
+	if (type == "Received") {
+		uIDContainer->Controls->Add(ContactButton);
+		uIDContainer->Controls->Add(FavoriteButton);
+		uIDContainer->Controls->Add(BlockButton);
 
+	}
 	return uIDContainer;
 }
 
-Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool seen)
+Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool seen,string type)
 {
 	Panel^ MainPanel = gcnew Panel();
 	Panel^ MessageBoxPanel = CreateMessageBox(message);
-	Panel^ UIDPanel = CreateUIDPanel(ID, date, seen);
+	Panel^ UIDPanel = CreateUIDPanel(ID, date, seen,type);
 
 	//Properties of Main Panel
 	MainPanel->Width = MessageBoxPanel->Width;
@@ -322,7 +374,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, vector<pair<UserMessage, in
 	//Add the Messages
 	for (int i = 0; i < messages.size(); i++)
 	{
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(messages[i].first.Content.c_str()), CPPSTR2SYSTEM(to_string(messages[i].second).c_str()), CPPSTR2SYSTEM(GetMessageDate(messages[i].first.SentDate).c_str()), messages[i].first.Seen));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(messages[i].first.Content.c_str()), CPPSTR2SYSTEM(to_string(messages[i].second).c_str()), CPPSTR2SYSTEM(GetMessageDate(messages[i].first.SentDate).c_str()), messages[i].first.Seen, "Received"));
 	}
 }
 
@@ -340,7 +392,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& message
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.Content.c_str()), CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.SentDate).c_str()), message.Seen));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.Content.c_str()), CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.SentDate).c_str()), message.Seen,"Recieved"));
 		messages.pop();
 	}
 }
@@ -359,7 +411,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM(to_string(message.first).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM(to_string(message.first).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen,"Sent"));
 		messages.pop();
 	}
 }
@@ -378,7 +430,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.front();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM((acc->GetContact(message.first) ? (to_string(message.first) + " (contact)").c_str() : to_string(message.first).c_str())), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen));
+		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM((acc->GetContact(message.first) ? (to_string(message.first) + " (contact)").c_str() : to_string(message.first).c_str())), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen,"Favorite"));
 		messages.pop();
 	}
 }
