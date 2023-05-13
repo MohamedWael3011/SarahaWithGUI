@@ -172,26 +172,7 @@ void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
 	}
 }
 
-void UserAccount::ViewContacts() {
-	set<int>::iterator itr;
-	vector<pair<int, int>>ContactTotalUserMessages;
 
-	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
-	{
-		int ContactID = *itr;
-		int ContactUserMessages = ReceivedMessages[ContactID].size();
-		ContactTotalUserMessages.push_back(make_pair(ContactUserMessages, ContactID)); // Storing as (UserMessages,ID) for easier sort lol :')
-	}
-	if (ContactTotalUserMessages.empty()) {
-		cout << "Oh no, you don't have any contacts. :(" << endl;
-	}
-	else {
-		sort(ContactTotalUserMessages.begin(), ContactTotalUserMessages.end(), greater<>());
-		for (auto i : ContactTotalUserMessages) {
-			cout << "Contact with ID " << i.second << ": " << i.first << "  UserMessage" << endl;
-		}
-	}
-}
 
 Panel^ CreateMessageBox(String^ message)
 {
@@ -435,7 +416,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage
 	}
 }
 
-Panel^ CreateContactPanel(String^ user_ID)
+Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 {
 	Panel^ ContactPanel = gcnew Panel();
 	PictureBox^ ContactIcon = gcnew PictureBox();
@@ -444,7 +425,7 @@ Panel^ CreateContactPanel(String^ user_ID)
 	Button^ SeeMessages = gcnew Button();
 
 	//Properties for Panel
-	ContactPanel->Size = Drawing::Size(469, 61);
+	ContactPanel->Size = Drawing::Size(569, 61);
 	ContactPanel->BorderStyle = BorderStyle::FixedSingle;
 	ContactPanel->Padding = System::Windows::Forms::Padding(5);
 
@@ -461,21 +442,21 @@ Panel^ CreateContactPanel(String^ user_ID)
 	uIDLabel->Size = Drawing::Size(34, 20);
 	uIDLabel->Location = Drawing::Point(66, 20);
 	uIDLabel->AutoSize = true;
-	uIDLabel->Text = "ID: ";
+	uIDLabel->Text = "Contact with ID " + user_ID + ": ";
 
 	uIDNumberLabel->AutoSize = true;
 	uIDNumberLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
 	uIDNumberLabel->ForeColor = Drawing::Color::White;
-	uIDNumberLabel->Location = Drawing::Point(106, 20);
+	uIDNumberLabel->Location = Drawing::Point(240, 20);
 	uIDNumberLabel->Size = Drawing::Size(203, 20);
-	uIDNumberLabel->Text = user_ID;
+	uIDNumberLabel->Text = numMsgs + " Messages";
 
 	//Properties of Button
 	SeeMessages->AutoSize = true;
 	SeeMessages->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	SeeMessages->ForeColor = System::Drawing::Color::White;
-	SeeMessages->Location = System::Drawing::Point(370, 19);
+	SeeMessages->Location = System::Drawing::Point(470, 19);
 	SeeMessages->Size = System::Drawing::Size(89, 25);
 	SeeMessages->Text = "See Messages";
 	SeeMessages->UseVisualStyleBackColor = true;
@@ -488,18 +469,17 @@ Panel^ CreateContactPanel(String^ user_ID)
 	return ContactPanel;
 }
 
-void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID)
+void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID, String^ numMsgs)
 {
 	//Properties of FlowLayoutPanel
 	container->Location = System::Drawing::Point(109, 0);
 	container->Size = System::Drawing::Size(879, 546);
 	container->FlowDirection = FlowDirection::TopDown;
-	container->Dock = DockStyle::Fill;
 	container->AutoScroll = true;
 	container->WrapContents = false;
 
 	//Testing
-	container->Controls->Add(CreateContactPanel(user_ID));
+	container->Controls->Add(CreateContactPanel(user_ID,numMsgs));
 
 }
 
@@ -672,4 +652,29 @@ bool UserAccount::IsBlocked(int User_ID)
 	return Blocked.find(User_ID) != Blocked.end();
 }
 
+void UserAccount::ViewContacts(FlowLayoutPanel^ container, Label^ noContactMessage)
+{
+	set<int>::iterator itr;
+	vector<pair<int, int>>ContactTotalUserMessages;
 
+	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
+	{
+		int ContactID = *itr;
+		int ContactUserMessages = ReceivedMessages[ContactID].size();
+		ContactTotalUserMessages.push_back(make_pair(ContactUserMessages, ContactID)); // Storing as (UserMessages,ID) for easier sort lol :')
+	}
+	if (ContactTotalUserMessages.empty()) {
+		
+		noContactMessage->Text = "Oh no, you don't have any contacts. :(";
+	}
+	else {
+		noContactMessage->Text="";
+		sort(ContactTotalUserMessages.begin(), ContactTotalUserMessages.end(), greater<>());
+		for (auto i : ContactTotalUserMessages) {
+			CreateContactLayout(container, Convert::ToString(i.second),Convert::ToString(i.first));
+		}
+		
+	}
+
+	
+}

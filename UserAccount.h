@@ -32,7 +32,7 @@ public:
 	char SendUserMessage(UserAccount* recipient, string content);
 	bool PopUserMessage(UserAccount* user);
 	void SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen);
-	void ViewContacts(); //ordered by most UserMessages
+	void ViewContacts(FlowLayoutPanel^ container, Label^ noContactMessage); //ordered by most UserMessages
 	vector<pair<UserMessage, int>> ViewReceivedMessages(FlowLayoutPanel^ container, bool full = false);
 	void ViewSentMessages(FlowLayoutPanel^ container);
 	bool ViewUserMessages(FlowLayoutPanel^ container, int User_ID);
@@ -40,6 +40,7 @@ public:
 	bool RemoveOldestFavorite();
 	bool ViewFavorites(FlowLayoutPanel^ container);
 	bool DeleteSpecificFavorite(int senderID,int Msg_Index);
+	
 
 	int GetUserMessagesFromUser(UserAccount* user);
 	bool GetContact(int User_ID);

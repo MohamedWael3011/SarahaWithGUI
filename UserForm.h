@@ -33,6 +33,23 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^  ReceivedInboxBtn;
 	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
+	private: System::Windows::Forms::Button^ InboxButton;
+	private: System::Windows::Forms::Button^ ContactsButton;
+	private: System::Windows::Forms::Button^ SendButton;
+	private: System::Windows::Forms::Button^ LogoutButton;
+	private: System::Windows::Forms::Button^ FavoriteButton;
+	private: System::Windows::Forms::Panel^ Options;
+
+	private: System::Windows::Forms::Label^ noContactsMessage;
+
+
+
+
+
+
+
+
 
 
 	private: System::Windows::Forms::FlowLayoutPanel^  MsgsPanel;
@@ -59,12 +76,12 @@ namespace SarahaWithGUI {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Panel^ Options;
 
-	private: System::Windows::Forms::Button^ LogoutButton;
-	private: System::Windows::Forms::Button^ SendButton;
-	private: System::Windows::Forms::Button^ ContactsButton;
-	private: System::Windows::Forms::Button^ InboxButton;
+
+
+
+
+
 	private: System::Windows::Forms::Panel^ InboxPanel;
 
 
@@ -73,9 +90,9 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Button^ SentButton;
 
 	private: System::Windows::Forms::Button^ ReceivedButton;
-	private: System::Windows::Forms::Button^ FavoriteButton;
 
-	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
+
+
 
 
 
@@ -99,12 +116,6 @@ namespace SarahaWithGUI {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserForm::typeid));
-			this->Options = (gcnew System::Windows::Forms::Panel());
-			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
-			this->LogoutButton = (gcnew System::Windows::Forms::Button());
-			this->SendButton = (gcnew System::Windows::Forms::Button());
-			this->ContactsButton = (gcnew System::Windows::Forms::Button());
-			this->InboxButton = (gcnew System::Windows::Forms::Button());
 			this->SendPanel = (gcnew System::Windows::Forms::Panel());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -118,120 +129,20 @@ namespace SarahaWithGUI {
 			this->ReceivedButton = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->FavoritesPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
-			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->Options->SuspendLayout();
+			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->noContactsMessage = (gcnew System::Windows::Forms::Label());
+			this->InboxButton = (gcnew System::Windows::Forms::Button());
+			this->ContactsButton = (gcnew System::Windows::Forms::Button());
+			this->SendButton = (gcnew System::Windows::Forms::Button());
+			this->LogoutButton = (gcnew System::Windows::Forms::Button());
+			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
+			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->SendPanel->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
 			this->ContactsPanel->SuspendLayout();
+			this->Options->SuspendLayout();
 			this->SuspendLayout();
-			// 
-			// Options
-			// 
-			this->Options->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->Options->Controls->Add(this->FavoriteButton);
-			this->Options->Controls->Add(this->LogoutButton);
-			this->Options->Controls->Add(this->SendButton);
-			this->Options->Controls->Add(this->ContactsButton);
-			this->Options->Controls->Add(this->InboxButton);
-			this->Options->Dock = System::Windows::Forms::DockStyle::Left;
-			this->Options->Location = System::Drawing::Point(0, 0);
-			this->Options->Name = L"Options";
-			this->Options->Size = System::Drawing::Size(109, 546);
-			this->Options->TabIndex = 0;
-			this->Options->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
-			this->Options->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
-			this->Options->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
-			// 
-			// FavoriteButton
-			// 
-			this->FavoriteButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->FavoriteButton->FlatAppearance->BorderSize = 0;
-			this->FavoriteButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->FavoriteButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->FavoriteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->FavoriteButton->ForeColor = System::Drawing::Color::Transparent;
-			this->FavoriteButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"FavoriteButton.Image")));
-			this->FavoriteButton->Location = System::Drawing::Point(18, 327);
-			this->FavoriteButton->Name = L"FavoriteButton";
-			this->FavoriteButton->Size = System::Drawing::Size(72, 72);
-			this->FavoriteButton->TabIndex = 4;
-			this->FavoriteButton->UseVisualStyleBackColor = true;
-			this->FavoriteButton->Click += gcnew System::EventHandler(this, &UserForm::FavoriteButton_Click);
-			// 
-			// LogoutButton
-			// 
-			this->LogoutButton->FlatAppearance->BorderSize = 0;
-			this->LogoutButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->LogoutButton->ForeColor = System::Drawing::Color::Transparent;
-			this->LogoutButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"LogoutButton.Image")));
-			this->LogoutButton->Location = System::Drawing::Point(18, 449);
-			this->LogoutButton->Name = L"LogoutButton";
-			this->LogoutButton->Size = System::Drawing::Size(72, 72);
-			this->LogoutButton->TabIndex = 3;
-			this->LogoutButton->UseVisualStyleBackColor = true;
-			this->LogoutButton->Click += gcnew System::EventHandler(this, &UserForm::LogoutButton_Click);
-			// 
-			// SendButton
-			// 
-			this->SendButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->SendButton->FlatAppearance->BorderSize = 0;
-			this->SendButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->SendButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->SendButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->SendButton->ForeColor = System::Drawing::Color::Transparent;
-			this->SendButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"SendButton.Image")));
-			this->SendButton->Location = System::Drawing::Point(18, 237);
-			this->SendButton->Name = L"SendButton";
-			this->SendButton->Size = System::Drawing::Size(72, 72);
-			this->SendButton->TabIndex = 2;
-			this->SendButton->UseVisualStyleBackColor = true;
-			this->SendButton->Click += gcnew System::EventHandler(this, &UserForm::SendButton_MouseClick);
-			// 
-			// ContactsButton
-			// 
-			this->ContactsButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->ContactsButton->FlatAppearance->BorderSize = 0;
-			this->ContactsButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->ContactsButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->ContactsButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->ContactsButton->ForeColor = System::Drawing::Color::Transparent;
-			this->ContactsButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ContactsButton.Image")));
-			this->ContactsButton->Location = System::Drawing::Point(18, 147);
-			this->ContactsButton->Name = L"ContactsButton";
-			this->ContactsButton->Size = System::Drawing::Size(72, 72);
-			this->ContactsButton->TabIndex = 1;
-			this->ContactsButton->UseVisualStyleBackColor = true;
-			this->ContactsButton->Click += gcnew System::EventHandler(this, &UserForm::ContactsButton_MouseClick);
-			// 
-			// InboxButton
-			// 
-			this->InboxButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->InboxButton->FlatAppearance->BorderSize = 0;
-			this->InboxButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->InboxButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
-				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
-			this->InboxButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->InboxButton->ForeColor = System::Drawing::Color::Transparent;
-			this->InboxButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"InboxButton.Image")));
-			this->InboxButton->Location = System::Drawing::Point(18, 57);
-			this->InboxButton->Name = L"InboxButton";
-			this->InboxButton->Size = System::Drawing::Size(72, 72);
-			this->InboxButton->TabIndex = 0;
-			this->InboxButton->UseVisualStyleBackColor = true;
-			this->InboxButton->Click += gcnew System::EventHandler(this, &UserForm::InboxButton_MouseClick);
 			// 
 			// SendPanel
 			// 
@@ -426,29 +337,150 @@ namespace SarahaWithGUI {
 			this->FavoritesPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->FavoritesPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
-			// ContactsPanel
-			// 
-			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
-				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->ContactsPanel->Controls->Add(this->button2);
-			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
-			this->ContactsPanel->Location = System::Drawing::Point(109, 0);
-			this->ContactsPanel->Name = L"ContactsPanel";
-			this->ContactsPanel->Size = System::Drawing::Size(879, 546);
-			this->ContactsPanel->TabIndex = 105;
-			this->ContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
-			this->ContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
-			this->ContactsPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
-			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(3, 3);
+			this->button2->Location = System::Drawing::Point(13, 13);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 0;
 			this->button2->Text = L"temp_button";
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &UserForm::button2_Click);
+			// 
+			// ContactsPanel
+			// 
+			this->ContactsPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
+				static_cast<System::Int32>(static_cast<System::Byte>(12)));
+			this->ContactsPanel->Controls->Add(this->button2);
+			this->ContactsPanel->Controls->Add(this->noContactsMessage);
+			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
+			this->ContactsPanel->Location = System::Drawing::Point(109, 0);
+			this->ContactsPanel->Margin = System::Windows::Forms::Padding(0);
+			this->ContactsPanel->Name = L"ContactsPanel";
+			this->ContactsPanel->Padding = System::Windows::Forms::Padding(10);
+			this->ContactsPanel->Size = System::Drawing::Size(879, 546);
+			this->ContactsPanel->TabIndex = 105;
+			this->ContactsPanel->WrapContents = false;
+			this->ContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
+			this->ContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
+			this->ContactsPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
+			// 
+			// noContactsMessage
+			// 
+			this->noContactsMessage->AutoSize = true;
+			this->noContactsMessage->ForeColor = System::Drawing::Color::White;
+			this->noContactsMessage->Location = System::Drawing::Point(13, 39);
+			this->noContactsMessage->Name = L"noContactsMessage";
+			this->noContactsMessage->Size = System::Drawing::Size(0, 13);
+			this->noContactsMessage->TabIndex = 3;
+			// 
+			// InboxButton
+			// 
+			this->InboxButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->InboxButton->FlatAppearance->BorderSize = 0;
+			this->InboxButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->InboxButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->InboxButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->InboxButton->ForeColor = System::Drawing::Color::Transparent;
+			this->InboxButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"InboxButton.Image")));
+			this->InboxButton->Location = System::Drawing::Point(18, 57);
+			this->InboxButton->Name = L"InboxButton";
+			this->InboxButton->Size = System::Drawing::Size(72, 72);
+			this->InboxButton->TabIndex = 0;
+			this->InboxButton->UseVisualStyleBackColor = true;
+			this->InboxButton->Click += gcnew System::EventHandler(this, &UserForm::InboxButton_MouseClick);
+			// 
+			// ContactsButton
+			// 
+			this->ContactsButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->ContactsButton->FlatAppearance->BorderSize = 0;
+			this->ContactsButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->ContactsButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->ContactsButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->ContactsButton->ForeColor = System::Drawing::Color::Transparent;
+			this->ContactsButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ContactsButton.Image")));
+			this->ContactsButton->Location = System::Drawing::Point(18, 147);
+			this->ContactsButton->Name = L"ContactsButton";
+			this->ContactsButton->Size = System::Drawing::Size(72, 72);
+			this->ContactsButton->TabIndex = 1;
+			this->ContactsButton->UseVisualStyleBackColor = true;
+			this->ContactsButton->Click += gcnew System::EventHandler(this, &UserForm::ContactsButton_MouseClick);
+			// 
+			// SendButton
+			// 
+			this->SendButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->SendButton->FlatAppearance->BorderSize = 0;
+			this->SendButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->SendButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->SendButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->SendButton->ForeColor = System::Drawing::Color::Transparent;
+			this->SendButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"SendButton.Image")));
+			this->SendButton->Location = System::Drawing::Point(18, 237);
+			this->SendButton->Name = L"SendButton";
+			this->SendButton->Size = System::Drawing::Size(72, 72);
+			this->SendButton->TabIndex = 2;
+			this->SendButton->UseVisualStyleBackColor = true;
+			this->SendButton->Click += gcnew System::EventHandler(this, &UserForm::SendButton_MouseClick);
+			// 
+			// LogoutButton
+			// 
+			this->LogoutButton->FlatAppearance->BorderSize = 0;
+			this->LogoutButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->LogoutButton->ForeColor = System::Drawing::Color::Transparent;
+			this->LogoutButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"LogoutButton.Image")));
+			this->LogoutButton->Location = System::Drawing::Point(18, 449);
+			this->LogoutButton->Name = L"LogoutButton";
+			this->LogoutButton->Size = System::Drawing::Size(72, 72);
+			this->LogoutButton->TabIndex = 3;
+			this->LogoutButton->UseVisualStyleBackColor = true;
+			this->LogoutButton->Click += gcnew System::EventHandler(this, &UserForm::LogoutButton_Click);
+			// 
+			// FavoriteButton
+			// 
+			this->FavoriteButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->FavoriteButton->FlatAppearance->BorderSize = 0;
+			this->FavoriteButton->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->FavoriteButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->FavoriteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->FavoriteButton->ForeColor = System::Drawing::Color::Transparent;
+			this->FavoriteButton->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"FavoriteButton.Image")));
+			this->FavoriteButton->Location = System::Drawing::Point(18, 327);
+			this->FavoriteButton->Name = L"FavoriteButton";
+			this->FavoriteButton->Size = System::Drawing::Size(72, 72);
+			this->FavoriteButton->TabIndex = 4;
+			this->FavoriteButton->UseVisualStyleBackColor = true;
+			this->FavoriteButton->Click += gcnew System::EventHandler(this, &UserForm::FavoriteButton_Click);
+			// 
+			// Options
+			// 
+			this->Options->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)),
+				static_cast<System::Int32>(static_cast<System::Byte>(29)));
+			this->Options->Controls->Add(this->FavoriteButton);
+			this->Options->Controls->Add(this->LogoutButton);
+			this->Options->Controls->Add(this->SendButton);
+			this->Options->Controls->Add(this->ContactsButton);
+			this->Options->Controls->Add(this->InboxButton);
+			this->Options->Dock = System::Windows::Forms::DockStyle::Left;
+			this->Options->Location = System::Drawing::Point(0, 0);
+			this->Options->Name = L"Options";
+			this->Options->Size = System::Drawing::Size(109, 546);
+			this->Options->TabIndex = 0;
+			this->Options->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
+			this->Options->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
+			this->Options->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
 			// UserForm
 			// 
@@ -457,10 +489,10 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
 			this->ClientSize = System::Drawing::Size(988, 546);
 			this->Controls->Add(this->Options);
+			this->Controls->Add(this->ContactsPanel);
 			this->Controls->Add(this->SendPanel);
 			this->Controls->Add(this->InboxPanel);
 			this->Controls->Add(this->FavoritesPanel);
-			this->Controls->Add(this->ContactsPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"UserForm";
@@ -468,11 +500,12 @@ namespace SarahaWithGUI {
 			this->Text = L"UserForm";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &UserForm::UserForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &UserForm::UserForm_Load);
-			this->Options->ResumeLayout(false);
 			this->SendPanel->ResumeLayout(false);
 			this->SendPanel->PerformLayout();
 			this->InboxPanel->ResumeLayout(false);
 			this->ContactsPanel->ResumeLayout(false);
+			this->ContactsPanel->PerformLayout();
+			this->Options->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -554,6 +587,9 @@ namespace SarahaWithGUI {
 		resetButtons();
 		ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
 		SelectPanel(ContactsPanel);
+
+		//ContactsPanel->Controls->Clear();
+		current_user->ViewContacts(ContactsPanel, noContactsMessage);
 	}
 	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
 		resetButtons();
@@ -648,9 +684,8 @@ namespace SarahaWithGUI {
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 
 	current_user->AddContact(11111);
-	current_user->AddContact(50);
-
-
+	current_user->AddContact(11119);
 }
+
 };
 }
