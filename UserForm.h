@@ -588,7 +588,7 @@ namespace SarahaWithGUI {
 		ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
 		SelectPanel(ContactsPanel);
 
-		//ContactsPanel->Controls->Clear();
+		ContactsPanel->Controls->Clear();
 		current_user->ViewContacts(ContactsPanel, noContactsMessage);
 	}
 	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {

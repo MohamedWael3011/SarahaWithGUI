@@ -132,7 +132,7 @@ void Config::LoadContacts(UserAccount& acc, int idx, IniFile& cfg)
 void Config::LoadBlocks(UserAccount& acc, int idx, IniFile& cfg)
 {
 	// clear
-	acc.Contacts.clear();
+	acc.Blocked.clear();
 
 	// load
 	int blockscnt = cfg.ReadKeyInt("Account_Blocks_Count_" + to_string(idx));
