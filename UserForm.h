@@ -32,7 +32,7 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^  ReceivedInboxBtn;
-	private: System::Windows::Forms::Button^ button2;
+
 	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
 	private: System::Windows::Forms::Button^ InboxButton;
 	private: System::Windows::Forms::Button^ ContactsButton;
@@ -41,7 +41,12 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Button^ FavoriteButton;
 	private: System::Windows::Forms::Panel^ Options;
 
-	private: System::Windows::Forms::Label^ noContactsMessage;
+
+
+
+
+
+
 
 
 
@@ -129,9 +134,7 @@ namespace SarahaWithGUI {
 			this->ReceivedButton = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->FavoritesPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
-			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
-			this->noContactsMessage = (gcnew System::Windows::Forms::Label());
 			this->InboxButton = (gcnew System::Windows::Forms::Button());
 			this->ContactsButton = (gcnew System::Windows::Forms::Button());
 			this->SendButton = (gcnew System::Windows::Forms::Button());
@@ -140,7 +143,6 @@ namespace SarahaWithGUI {
 			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->SendPanel->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
-			this->ContactsPanel->SuspendLayout();
 			this->Options->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -337,23 +339,11 @@ namespace SarahaWithGUI {
 			this->FavoritesPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->FavoritesPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
-			// button2
-			// 
-			this->button2->Location = System::Drawing::Point(13, 13);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
-			this->button2->TabIndex = 0;
-			this->button2->Text = L"temp_button";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &UserForm::button2_Click);
-			// 
 			// ContactsPanel
 			// 
 			this->ContactsPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->ContactsPanel->Controls->Add(this->button2);
-			this->ContactsPanel->Controls->Add(this->noContactsMessage);
 			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
 			this->ContactsPanel->Location = System::Drawing::Point(109, 0);
 			this->ContactsPanel->Margin = System::Windows::Forms::Padding(0);
@@ -365,15 +355,6 @@ namespace SarahaWithGUI {
 			this->ContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
 			this->ContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->ContactsPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
-			// 
-			// noContactsMessage
-			// 
-			this->noContactsMessage->AutoSize = true;
-			this->noContactsMessage->ForeColor = System::Drawing::Color::White;
-			this->noContactsMessage->Location = System::Drawing::Point(13, 39);
-			this->noContactsMessage->Name = L"noContactsMessage";
-			this->noContactsMessage->Size = System::Drawing::Size(0, 13);
-			this->noContactsMessage->TabIndex = 3;
 			// 
 			// InboxButton
 			// 
@@ -503,8 +484,6 @@ namespace SarahaWithGUI {
 			this->SendPanel->ResumeLayout(false);
 			this->SendPanel->PerformLayout();
 			this->InboxPanel->ResumeLayout(false);
-			this->ContactsPanel->ResumeLayout(false);
-			this->ContactsPanel->PerformLayout();
 			this->Options->ResumeLayout(false);
 			this->ResumeLayout(false);
 
@@ -589,7 +568,7 @@ namespace SarahaWithGUI {
 		SelectPanel(ContactsPanel);
 
 		ContactsPanel->Controls->Clear();
-		current_user->ViewContacts(ContactsPanel, noContactsMessage);
+		current_user->ViewContacts(ContactsPanel);
 	}
 	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
 		resetButtons();
@@ -681,11 +660,5 @@ namespace SarahaWithGUI {
 		}
 
 	}
-private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-
-	current_user->AddContact(11111);
-	current_user->AddContact(11119);
-}
-
 };
 }

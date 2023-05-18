@@ -423,6 +423,7 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	Label^ uIDLabel = gcnew Label();
 	Label^ uIDNumberLabel = gcnew Label();
 	Button^ SeeMessages = gcnew Button();
+	Button^ BlockContact = gcnew Button();
 
 	//Properties for Panel
 	ContactPanel->Size = Drawing::Size(569, 61);
@@ -452,19 +453,28 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	uIDNumberLabel->Size = Drawing::Size(203, 20);
 	uIDNumberLabel->Text = numMsgs + " Messages";
 
-	//Properties of Button
+	//Properties of Button (See Messages)
 	SeeMessages->AutoSize = true;
 	SeeMessages->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	SeeMessages->ForeColor = System::Drawing::Color::White;
 	SeeMessages->Location = System::Drawing::Point(470, 19);
 	SeeMessages->Size = System::Drawing::Size(89, 25);
 	SeeMessages->Text = "See Messages";
-	SeeMessages->UseVisualStyleBackColor = true;
+	
+	//Properties of Button (Block Contact)
+	BlockContact->AutoSize = true;
+	BlockContact->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	BlockContact->ForeColor = System::Drawing::Color::White;
+	BlockContact->Location = System::Drawing::Point(375, 19);
+	BlockContact->Size = System::Drawing::Size(89, 25);
+	BlockContact->Text = "Block Contact";
+	
 
 	ContactPanel->Controls->Add(ContactIcon);
 	ContactPanel->Controls->Add(uIDLabel);
 	ContactPanel->Controls->Add(uIDNumberLabel);
 	ContactPanel->Controls->Add(SeeMessages);
+	ContactPanel->Controls->Add(BlockContact);
 
 	return ContactPanel;
 }
@@ -652,10 +662,11 @@ bool UserAccount::IsBlocked(int User_ID)
 	return Blocked.find(User_ID) != Blocked.end();
 }
 
-void UserAccount::ViewContacts(FlowLayoutPanel^ container, Label^ noContactMessage)
+void UserAccount::ViewContacts(FlowLayoutPanel^ container)
 {
 	set<int>::iterator itr;
 	vector<pair<int, int>>ContactTotalUserMessages;
+	Label^ noContactMessage = gcnew Label();
 
 	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
 	{
@@ -664,17 +675,21 @@ void UserAccount::ViewContacts(FlowLayoutPanel^ container, Label^ noContactMessa
 		ContactTotalUserMessages.push_back(make_pair(ContactUserMessages, ContactID)); // Storing as (UserMessages,ID) for easier sort lol :')
 	}
 	if (ContactTotalUserMessages.empty()) {
-		
+
+		//Properties for Label
 		noContactMessage->Text = "Oh no, you don't have any contacts. :(";
+		noContactMessage->ForeColor = Color::White;
+		noContactMessage->AutoSize = true;
+		noContactMessage->Margin = Padding(20);
+		noContactMessage->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			static_cast<System::Byte>(0)));
+
+		container->Controls->Add(noContactMessage);
 	}
 	else {
-		noContactMessage->Text="";
 		sort(ContactTotalUserMessages.begin(), ContactTotalUserMessages.end(), greater<>());
 		for (auto i : ContactTotalUserMessages) {
 			CreateContactLayout(container, Convert::ToString(i.second),Convert::ToString(i.first));
 		}
-		
 	}
-
-	
 }
