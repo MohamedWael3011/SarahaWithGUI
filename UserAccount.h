@@ -33,15 +33,26 @@ public:
 	bool PopUserMessage(UserAccount* user);
 	void SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen);
 	void ViewContacts(FlowLayoutPanel^ container); //ordered by most UserMessages
-	vector<pair<UserMessage, int>> ViewReceivedMessages(FlowLayoutPanel^ container, bool full = false);
-	void ViewSentMessages(FlowLayoutPanel^ container);
-	bool ViewUserMessages(FlowLayoutPanel^ container, int User_ID);
+	vector<pair<UserMessage, int>> ViewReceivedMessages(FlowLayoutPanel^ container, Form^ form, bool full = false);
+	void ViewSentMessages(FlowLayoutPanel^ container, Form^ form);
+	bool ViewUserMessages(FlowLayoutPanel^ container, Form^ form, int User_ID);
 	bool PutFavorite(int User_ID, int Msg_Index);
 	bool RemoveOldestFavorite();
-	bool ViewFavorites(FlowLayoutPanel^ container);
+	bool RemoveFavorite(int User_ID, int Msg_Index);
+	bool IsFavorite(int User_ID, int Msg_Index);
+	bool ViewFavorites(FlowLayoutPanel^ container, Form^ form);
 	bool DeleteSpecificFavorite(int senderID,int Msg_Index);
-	
 
+private:
+	Panel^ CreateMessageBox(String^ message);
+	Panel^ CreateUIDPanel(Form^ form, String^ ID, String^ date, UserMessage& msg, string type);
+	Panel^ CreateMainMessagePanel(Form^ form, int User_ID, UserMessage& msg, string type);
+	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, vector<pair<UserMessage, int>>& messages);
+	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<UserMessage>& messages, int User_ID);
+	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<pair<int, UserMessage>>& messages);
+	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, queue<pair<int, UserMessage>>& messages);
+
+public:
 	int GetUserMessagesFromUser(UserAccount* user);
 	bool GetContact(int User_ID);
 	int ID() const;

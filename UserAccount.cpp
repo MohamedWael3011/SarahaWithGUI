@@ -1,5 +1,6 @@
 #include "UserAccount.h"
 #include "Misc.h"
+#include "UserForm.h"
 
 void PrintDate(SYSTEMTIME d)
 {
@@ -48,28 +49,26 @@ bool UserAccount::AddContact(int User_ID) {
 
 	if (ReceivedMessages.find(User_ID) != ReceivedMessages.end()) {
 
-		if (Contacts.find(User_ID) != Contacts.end()) {
+		/*if (Contacts.find(User_ID) != Contacts.end()) {
 
-			cout << User_ID << " is already in your contacts list.\n";
+			MessageBoxA(NULL, (to_string(User_ID) + " is already in your contacts list.").c_str(), "Contacts", MB_ICONEXCLAMATION);
 		}
-		else {
+		else */if (Contacts.find(User_ID) == Contacts.end()) {
 
 			Contacts.insert(User_ID);
-			cout << User_ID << " has been added to your contacts list.\n";
-
+			//MessageBoxA(NULL, (to_string(User_ID) + " has been added to your contacts list.").c_str(), "Contacts", MB_ICONINFORMATION);
+			return true;
 		}
-		return true;
 	}
 
 	return false;
-
 }
 
 bool UserAccount::RemoveContact(int User_ID) {
 
 	if (Contacts.find(User_ID) != Contacts.end()) {
 		Contacts.erase((User_ID));
-		cout << User_ID << " has been removed from your contacts list.\n";
+		//MessageBoxA(NULL, (to_string(User_ID) + " has been removed from your contacts list.").c_str(), "Contacts", MB_ICONINFORMATION);
 		return true;
 	}
 	return false;
@@ -174,7 +173,7 @@ void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
 
 
 
-Panel^ CreateMessageBox(String^ message)
+Panel^ UserAccount::CreateMessageBox(String^ message)
 {
 	Panel^ messageContainer = gcnew Panel();
 	RichTextBox^ messageBox = gcnew RichTextBox();
@@ -230,20 +229,22 @@ Panel^ CreateMessageBox(String^ message)
 	return messageContainer;
 }
 
-Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
+Panel^ UserAccount::CreateUIDPanel(Form^ form, String^ ID, String^ date, UserMessage& msg, string type)
 {
+	int User_ID = atoi(SystemStringToCpp(ID).c_str());
+
 	Panel^ uIDContainer = gcnew Panel();
 	Label^ uIDLabel = gcnew Label();
 	Label^ uDateLabel = gcnew Label();
 
 	//Label for UID
 	uIDLabel->Text = "By UID: " + ID;
-	uIDLabel->ForeColor = seen ? Color::FromArgb(83, 189, 235) : Color::White;
+	uIDLabel->ForeColor = msg.Seen ? Color::FromArgb(83, 189, 235) : Color::White;
 	uIDLabel->AutoSize = true;
 
 	//Label for date
 	uDateLabel->Text = date;
-	uDateLabel->ForeColor = seen ? Color::FromArgb(83, 189, 235) : Color::White;
+	uDateLabel->ForeColor = msg.Seen ? Color::FromArgb(83, 189, 235) : Color::White;
 	uDateLabel->Location = Point(uIDLabel->Width, 0);
 	uDateLabel->AutoSize = true;
 
@@ -262,7 +263,7 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 	Button^ FavoriteButton = gcnew Button();
 	Button^ BlockButton = gcnew Button();
 
-
+	///
 	ContactButton->Text = "";
 	ContactButton->BackColor = Color::Transparent;
 	ContactButton->Location = Point(uDateLabel->Location.X + uDateLabel->Width + 25, -5);
@@ -276,10 +277,11 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
 	ContactButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	ContactButton->ForeColor = System::Drawing::Color::Transparent;
-	ContactButton->Image = System::Drawing::Image::FromFile("img/NotContact.png");
-	ContactButton->Name = L"ContactButton";
+	ContactButton->Image = System::Drawing::Image::FromFile(GetContact(User_ID) ? "img/IsContact.png" : "img/NotContact.png");
+	ContactButton->Name = ID;
 	ContactButton->Size = System::Drawing::Size(28, 28);
 	ContactButton->TabIndex = 4;
+
 	///
 	FavoriteButton->Text = "";
 	FavoriteButton->BackColor = Color::Transparent;
@@ -294,11 +296,12 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
 	FavoriteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	FavoriteButton->ForeColor = System::Drawing::Color::Transparent;
-	FavoriteButton->Image = System::Drawing::Image::FromFile("img/NotFavorite.png");
-	FavoriteButton->Name = L"FavoriteButton";
+	FavoriteButton->Image = System::Drawing::Image::FromFile(msg.IsFavorite ? "img/IsFavorite.png" : "img/NotFavorite.png");
+	FavoriteButton->Name = String::Format("{0},{1}", ID, CPPSTR2SYSTEM(to_string(msg.Index).c_str()));
 	FavoriteButton->Size = System::Drawing::Size(28, 28);
 	FavoriteButton->TabIndex = 4;
-//
+
+	///
 	BlockButton->Text = "";
 	BlockButton->BackColor = Color::Transparent;
 	BlockButton->Location = Point(FavoriteButton->Location.X + FavoriteButton->Width + 2, -5);
@@ -312,10 +315,14 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 		static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
 	BlockButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	BlockButton->ForeColor = System::Drawing::Color::Transparent;
-	BlockButton->Image = System::Drawing::Image::FromFile("img/NotBlocked.png");
-	BlockButton->Name = L"BlockButton";
+	BlockButton->Image = System::Drawing::Image::FromFile(IsBlocked(User_ID) ? "img/IsBlocked.png" : "img/NotBlocked.png");
+	BlockButton->Name = ID;
 	BlockButton->Size = System::Drawing::Size(28, 28);
 	BlockButton->TabIndex = 4;
+
+	ContactButton->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::MessageContact_Click);
+	FavoriteButton->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::MessageFavorite_Click);
+	BlockButton->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::MessageBlock_Click);
 
 	if (type == "Received") {
 		uIDContainer->Controls->Add(ContactButton);
@@ -326,11 +333,11 @@ Panel^ CreateUIDPanel(String^ ID, String^ date, bool seen, string type)
 	return uIDContainer;
 }
 
-Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool seen,string type)
+Panel^ UserAccount::CreateMainMessagePanel(Form^ form, int User_ID, UserMessage& msg, string type)
 {
 	Panel^ MainPanel = gcnew Panel();
-	Panel^ MessageBoxPanel = CreateMessageBox(message);
-	Panel^ UIDPanel = CreateUIDPanel(ID, date, seen,type);
+	Panel^ MessageBoxPanel = CreateMessageBox(CPPSTR2SYSTEM(msg.Content.c_str()));
+	Panel^ UIDPanel = CreateUIDPanel(form, CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(msg.SentDate).c_str()), msg, type);
 
 	//Properties of Main Panel
 	MainPanel->Width = MessageBoxPanel->Width;
@@ -344,7 +351,7 @@ Panel^ CreateMainMessagePanel(String^ message, String^ ID, String^ date, bool se
 	return MainPanel;
 }
 
-void CreateMessageLayout(FlowLayoutPanel^ container, vector<pair<UserMessage, int>>& messages)
+void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, vector<pair<UserMessage, int>>& messages)
 {
 	//Flow Layout Properties
 	//container->Location = Point(110, 135);
@@ -355,11 +362,11 @@ void CreateMessageLayout(FlowLayoutPanel^ container, vector<pair<UserMessage, in
 	//Add the Messages
 	for (int i = 0; i < messages.size(); i++)
 	{
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(messages[i].first.Content.c_str()), CPPSTR2SYSTEM(to_string(messages[i].second).c_str()), CPPSTR2SYSTEM(GetMessageDate(messages[i].first.SentDate).c_str()), messages[i].first.Seen, "Received"));
+		container->Controls->Add(CreateMainMessagePanel(form, messages[i].second, messages[i].first, "Received"));
 	}
 }
 
-void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& messages, int User_ID)
+void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<UserMessage>& messages, int User_ID)
 {
 	//Flow Layout Properties
 	//container->Location = Point(110, 135);
@@ -373,12 +380,12 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<UserMessage>& message
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.Content.c_str()), CPPSTR2SYSTEM(to_string(User_ID).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.SentDate).c_str()), message.Seen,"Recieved"));
+		container->Controls->Add(CreateMainMessagePanel(form, User_ID, message, "Recieved"));
 		messages.pop();
 	}
 }
 
-void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage>>& messages)
+void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<pair<int, UserMessage>>& messages)
 {
 	//Flow Layout Properties
 	//container->Location = Point(110, 135);
@@ -392,12 +399,12 @@ void CreateMessageLayout(FlowLayoutPanel^ container, stack<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.top();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM(to_string(message.first).c_str()), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen,"Sent"));
+		container->Controls->Add(CreateMainMessagePanel(form, message.first, message.second, "Sent"));
 		messages.pop();
 	}
 }
 
-void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage>>& messages, UserAccount* acc)
+void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, queue<pair<int, UserMessage>>& messages)
 {
 	//Flow Layout Properties
 	//container->Location = Point(110, 135);
@@ -411,7 +418,7 @@ void CreateMessageLayout(FlowLayoutPanel^ container, queue<pair<int, UserMessage
 	while (!messages.empty())
 	{
 		message = messages.front();
-		container->Controls->Add(CreateMainMessagePanel(CPPSTR2SYSTEM(message.second.Content.c_str()), CPPSTR2SYSTEM((acc->GetContact(message.first) ? (to_string(message.first) + " (contact)").c_str() : to_string(message.first).c_str())), CPPSTR2SYSTEM(GetMessageDate(message.second.SentDate).c_str()), message.second.Seen,"Favorite"));
+		container->Controls->Add(CreateMainMessagePanel(form, message.first, message.second, "Favorite"));
 		messages.pop();
 	}
 }
@@ -493,7 +500,7 @@ void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID, String^ nu
 
 }
 
-vector<pair<UserMessage, int>> UserAccount::ViewReceivedMessages(FlowLayoutPanel^ container, bool full)
+vector<pair<UserMessage, int>> UserAccount::ViewReceivedMessages(FlowLayoutPanel^ container, Form^ form, bool full)
 {
 	vector <pair<UserMessage, int>> AllUserMessages;
 
@@ -529,22 +536,22 @@ vector<pair<UserMessage, int>> UserAccount::ViewReceivedMessages(FlowLayoutPanel
 		}
 
 		std::sort(AllUserMessages.begin(), AllUserMessages.end(), compareByTime);
-		CreateMessageLayout(container, AllUserMessages);
+		CreateMessageLayout(container, form, AllUserMessages);
 	}
 
 	return AllUserMessages;
 }
 
-void UserAccount::ViewSentMessages(FlowLayoutPanel^ container)
+void UserAccount::ViewSentMessages(FlowLayoutPanel^ container, Form^ form)
 {
 	if (!SentMessages.empty())
 	{
 		stack<pair<int, UserMessage>> msgs = SentMessages;
-		CreateMessageLayout(container, msgs);
+		CreateMessageLayout(container, form, msgs);
 	}
 }
 
-bool UserAccount::ViewUserMessages(FlowLayoutPanel^ container, int User_ID)
+bool UserAccount::ViewUserMessages(FlowLayoutPanel^ container, Form^ form, int User_ID)
 {
 	//Flow Layout Properties
 	container->Location = Point(110, 135);
@@ -561,51 +568,124 @@ bool UserAccount::ViewUserMessages(FlowLayoutPanel^ container, int User_ID)
 	else
 	{
 		UserMessages = ReceivedMessages[User_ID];
-		CreateMessageLayout(container, UserMessages, User_ID);
+		CreateMessageLayout(container, form, UserMessages, User_ID);
 		return true;
 	}
 
 }
 bool UserAccount::PutFavorite(int User_ID, int Msg_Index) {
-	if (ReceivedMessages.find(User_ID) == ReceivedMessages.end())
+	auto it = ReceivedMessages.find(User_ID);
+	if (it == ReceivedMessages.end())
 	{
 		return false;
 	}
 	else
 	{
-		stack<UserMessage> chat = ReceivedMessages[User_ID];
+		bool found = false;
+		stack<UserMessage> chat;
+		UserMessage msg;
+
+		while (!it->second.empty())
+		{
+			msg = it->second.top();
+
+			if (!found && msg.Index == Msg_Index)
+			{
+				found = true;
+				msg.IsFavorite = true;
+				Favorites.emplace(User_ID, msg);
+			}
+
+			chat.push(msg);
+			it->second.pop();
+		}
+
 		while (!chat.empty())
 		{
-			if (chat.top().Index != Msg_Index)
-			{
-				chat.pop();
-			}
-			else
-			{
-				if (chat.top().IsFavorite == true)
-				{
-					cout << "This message is already a favourite";
-					return false;
-				}
-				else
-				{
-					chat.top().IsFavorite = true;
-					Favorites.emplace(User_ID, chat.top());
-					return true;
-				}
-			}
+			it->second.push(chat.top());
+			chat.pop();
 		}
+		return found;
 	}
 }
-bool UserAccount::RemoveOldestFavorite() {
-	if (Favorites.empty())
-		return false;
-	Favorites.pop();
-	return true;
+
+bool UserAccount::RemoveOldestFavorite(void)
+{
+	return RemoveFavorite(Favorites.back().first, Favorites.back().second.Index);
 
 }
 
-bool UserAccount::ViewFavorites(FlowLayoutPanel^ container)
+bool UserAccount::RemoveFavorite(int User_ID, int Msg_Index)
+{
+	auto it = ReceivedMessages.find(User_ID);
+	if (it == ReceivedMessages.end())
+	{
+		return false;
+	}
+	else
+	{
+		bool found = false;
+		stack<UserMessage> chat;
+		UserMessage msg;
+		queue<pair<int, UserMessage>> favs;
+		pair<int, UserMessage> favmsg;
+
+		//set messages flag
+		while (!it->second.empty())
+		{
+			msg = it->second.top();
+
+			if (!found && msg.Index == Msg_Index)
+			{
+				found = true;
+				msg.IsFavorite = false;
+			}
+
+			chat.push(msg);
+			it->second.pop();
+		}
+
+		while (!chat.empty())
+		{
+			it->second.push(chat.top());
+			chat.pop();
+		}
+
+		//removing from Favorites queue
+		while (!Favorites.empty())
+		{
+			favmsg = Favorites.front();
+
+			if (favmsg.first != User_ID || favmsg.second.Index != Msg_Index)
+				favs.push(favmsg);
+
+			Favorites.pop();
+		}
+
+		Favorites = favs;
+		return found;
+	}
+}
+
+bool UserAccount::IsFavorite(int User_ID, int Msg_Index)
+{
+	auto it = ReceivedMessages.find(User_ID);
+	if (it != ReceivedMessages.end())
+	{
+		stack<UserMessage> chat = it->second;
+
+		//set messages flag
+		while (!chat.empty())
+		{
+			if (chat.top().Index == Msg_Index)
+				return chat.top().IsFavorite;
+			chat.pop();
+		}
+	}
+	return false;
+}
+
+bool UserAccount::ViewFavorites(FlowLayoutPanel^ container, Form^ form)
 {
 	if (Favorites.empty())
 	{
@@ -613,7 +693,7 @@ bool UserAccount::ViewFavorites(FlowLayoutPanel^ container)
 	}
 
 	queue<pair<int, UserMessage>> msgs = Favorites;
-	CreateMessageLayout(container, msgs, this);
+	CreateMessageLayout(container, form, msgs);
 	return true;
 }
 

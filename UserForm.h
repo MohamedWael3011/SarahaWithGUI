@@ -2,6 +2,7 @@
 #include "main.h"
 #include <array>
 #include <string>
+
 namespace SarahaWithGUI {
 
 	using namespace System;
@@ -21,6 +22,7 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Form^ otherform;
 	private: Control^ m_selectedpanel;
 	private: Control^ m_selectedinbox;
+	private: bool m_lastrecvmsgfull;
 
 
 	private: System::Windows::Forms::FlowLayoutPanel^ FavoritesPanel;
@@ -64,6 +66,8 @@ namespace SarahaWithGUI {
 		UserForm(System::Windows::Forms::Form^ o)
 		{
 			otherform = o;
+			m_lastrecvmsgfull = false;
+
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -470,15 +474,15 @@ namespace SarahaWithGUI {
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
 			this->ClientSize = System::Drawing::Size(988, 546);
 			this->Controls->Add(this->Options);
+			this->Controls->Add(this->InboxPanel);
 			this->Controls->Add(this->ContactsPanel);
 			this->Controls->Add(this->SendPanel);
-			this->Controls->Add(this->InboxPanel);
 			this->Controls->Add(this->FavoritesPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"UserForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"UserForm";
+			this->Text = L"Saraha";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &UserForm::UserForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &UserForm::UserForm_Load);
 			this->SendPanel->ResumeLayout(false);
@@ -583,12 +587,20 @@ namespace SarahaWithGUI {
 
 		//reload favorites
 		FavoritesPanel->Controls->Clear();
-		current_user->ViewFavorites(FavoritesPanel);
+		current_user->ViewFavorites(FavoritesPanel, this);
 	}
 
 	private: System::Void LogoutButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		otherform->Show();
+	}
+
+	vector<pair<UserMessage, int>> LoadReceivedMessages(bool full)
+	{
+		m_lastrecvmsgfull = full;
+		MsgsPanel->Controls->Clear();
+		
+		return current_user->ViewReceivedMessages(MsgsPanel, this, full);
 	}
 
 	private: System::Void ReceivedButton_Click(System::Object^ sender, System::EventArgs^ e)
@@ -601,8 +613,7 @@ namespace SarahaWithGUI {
 		ReceivedInboxBtn->Text = "Inbox";
 
 		//reload msgs
-		MsgsPanel->Controls->Clear();
-		vector <pair<UserMessage, int>> AllUserMessages = current_user->ViewReceivedMessages(MsgsPanel);
+		vector <pair<UserMessage, int>> AllUserMessages = LoadReceivedMessages(false);
 
 		//update seen for sender
 		cfg.SetSentMsgsSeen(current_user->ID(), AllUserMessages, true);
@@ -619,7 +630,7 @@ namespace SarahaWithGUI {
 
 		//reload msgs
 		MsgsPanel->Controls->Clear();
-		current_user->ViewSentMessages(MsgsPanel);
+		current_user->ViewSentMessages(MsgsPanel, this);
 	}
 	private: System::Void SendMessageButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		int ID = stoi(SystemStringToCpp(UserIdSendMessage->Text));
@@ -644,21 +655,86 @@ namespace SarahaWithGUI {
 
 	}
 	private: System::Void ReceivedInboxBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		MsgsPanel->Controls->Clear();
 		if (ReceivedInboxBtn->Text == "Inbox")
-			vector <pair<UserMessage, int>> AllUserMessages = current_user->ViewReceivedMessages(MsgsPanel, true);
+			LoadReceivedMessages(true);
 		else {
+			MsgsPanel->Controls->Clear();
+
 			if (!current_user->SentMessages.empty())
 			{
 				UserAccount* user = cfg.GetUserAccount(current_user->SentMessages.top().first);
 				current_user->PopUserMessage(user);
-				current_user->ViewSentMessages(MsgsPanel);
+				current_user->ViewSentMessages(MsgsPanel, this);
 			}
 			else
 				MessageBox::Show("There is no sent message to be removed", "Fail", MessageBoxButtons::OK, MessageBoxIcon::Error);
 
 		}
+	}
 
+	public: System::Void MessageContact_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Button^ btn = static_cast<Button^>(sender);
+		int User_ID = atoi(SystemStringToCpp(btn->Name).c_str());
+		
+		if (!current_user->GetContact(User_ID))
+		{
+			if (current_user->AddContact(User_ID))
+				btn->Image = System::Drawing::Image::FromFile("img/IsContact.png");
+		}
+		else if (current_user->RemoveContact(User_ID))
+			btn->Image = System::Drawing::Image::FromFile("img/NotContact.png");
+
+		LoadReceivedMessages(m_lastrecvmsgfull);
+	}
+
+	public: System::Void MessageFavorite_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Button^ btn = static_cast<Button^>(sender);
+		auto splitter = btn->Name->Split(',');
+
+		if (splitter->Length == 2)
+		{
+			int User_ID = atoi(SystemStringToCpp(splitter[0]).c_str());
+			int Msg_Index = atoi(SystemStringToCpp(splitter[1]).c_str());
+
+			if (!current_user->IsFavorite(User_ID, Msg_Index))
+			{
+				current_user->PutFavorite(User_ID, Msg_Index);
+				btn->Image = System::Drawing::Image::FromFile("img/IsFavorite.png");
+			}
+			else
+			{
+				current_user->RemoveFavorite(User_ID, Msg_Index);
+				btn->Image = System::Drawing::Image::FromFile("img/NotFavorite.png");
+			}
+
+			LoadReceivedMessages(m_lastrecvmsgfull);
+		}
+	}
+
+	public: System::Void MessageBlock_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Button^ btn = static_cast<Button^>(sender);
+		int User_ID = atoi(SystemStringToCpp(btn->Name).c_str());
+
+		if (!current_user->IsBlocked(User_ID))
+		{
+			if (current_user->Block(User_ID))
+			{
+				MessageBox::Show(String::Format("{0} has been blocked.", User_ID), "Block list", MessageBoxButtons::OK, MessageBoxIcon::Information);
+				btn->Image = System::Drawing::Image::FromFile("img/IsBlocked.png");
+			}
+			else
+				MessageBox::Show(String::Format("{0} is already blocked.", User_ID), "Block list", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+		}
+		else if (current_user->Unblock(User_ID))
+		{
+			MessageBox::Show(String::Format("{0} has been unblocked.", User_ID), "Block list", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			btn->Image = System::Drawing::Image::FromFile("img/NotBlocked.png");
+		}
+
+		LoadReceivedMessages(m_lastrecvmsgfull);
 	}
 };
 }
