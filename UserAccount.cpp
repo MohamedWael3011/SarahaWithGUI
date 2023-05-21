@@ -222,6 +222,7 @@ Panel^ UserAccount::CreateMessageBox(String^ message)
 	messageBox->Multiline = true;
 	messageBox->ReadOnly = true;
 	messageBox->WordWrap = true;
+	messageBox->MaxLength = 25;
 
 	//Add the textbox inside panel
 	messageContainer->Controls->Add(messageBox);
@@ -423,24 +424,26 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, qu
 	}
 }
 
-Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
+Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs, Form^ form)
 {
 	Panel^ ContactPanel = gcnew Panel();
 	PictureBox^ ContactIcon = gcnew PictureBox();
 	Label^ uIDLabel = gcnew Label();
 	Label^ uIDNumberLabel = gcnew Label();
+	Label^ placeHolder = gcnew Label();
 	Button^ SeeMessages = gcnew Button();
 	Button^ BlockContact = gcnew Button();
+	
 
 	//Properties for Panel
 	ContactPanel->Size = Drawing::Size(569, 61);
 	ContactPanel->BorderStyle = BorderStyle::FixedSingle;
 	ContactPanel->Padding = System::Windows::Forms::Padding(5);
-
+	ContactPanel->Name = L"something";
+	
 	//Properties of PictureBox
 	ContactIcon->Size = Drawing::Size(32, 32);
 	ContactIcon->Location = Point(15, 14);
-	//ContactIcon->BorderStyle = BorderStyle::FixedSingle;
 	ContactIcon->Image = System::Drawing::Image::FromFile("img/ProfileIcon.png");
 
 	//Properties of Labels
@@ -450,7 +453,16 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	uIDLabel->Size = Drawing::Size(34, 20);
 	uIDLabel->Location = Drawing::Point(66, 20);
 	uIDLabel->AutoSize = true;
-	uIDLabel->Text = "Contact with ID " + user_ID + ": ";
+	placeHolder->Text = user_ID;
+	placeHolder->Name = L"placeHolder";
+	uIDLabel->Text = "Contact with ID " + placeHolder->Text + ": ";
+
+	placeHolder->ForeColor = Color::White;
+	placeHolder->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	//placeHolder->Size = Drawing::Size(34, 20);
+	//placeHolder->Location = Drawing::Point(66, 20);
+	placeHolder->AutoSize = true;
 
 	uIDNumberLabel->AutoSize = true;
 	uIDNumberLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -467,6 +479,8 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	SeeMessages->Location = System::Drawing::Point(470, 19);
 	SeeMessages->Size = System::Drawing::Size(89, 25);
 	SeeMessages->Text = "See Messages";
+	SeeMessages->Name = user_ID;
+	SeeMessages->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::SeeMessages_btn_Click);
 	
 	//Properties of Button (Block Contact)
 	BlockContact->AutoSize = true;
@@ -475,6 +489,8 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	BlockContact->Location = System::Drawing::Point(375, 19);
 	BlockContact->Size = System::Drawing::Size(89, 25);
 	BlockContact->Text = "Block Contact";
+	BlockContact->Name = user_ID;
+	BlockContact->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::BlockContact_btn_Click);
 	
 
 	ContactPanel->Controls->Add(ContactIcon);
@@ -486,17 +502,16 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs)
 	return ContactPanel;
 }
 
-void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID, String^ numMsgs)
+void CreateContactLayout(FlowLayoutPanel^ container, String^ user_ID, String^ numMsgs,Form^ form)
 {
-	//Properties of FlowLayoutPanel
-	container->Location = System::Drawing::Point(109, 0);
+	//Properties of FlowLayoutPanels
 	container->Size = System::Drawing::Size(879, 546);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
 
 	//Testing
-	container->Controls->Add(CreateContactPanel(user_ID,numMsgs));
+	container->Controls->Add(CreateContactPanel(user_ID,numMsgs,form));
 
 }
 
@@ -554,10 +569,10 @@ void UserAccount::ViewSentMessages(FlowLayoutPanel^ container, Form^ form)
 bool UserAccount::ViewUserMessages(FlowLayoutPanel^ container, Form^ form, int User_ID)
 {
 	//Flow Layout Properties
-	container->Location = Point(110, 135);
+	/*container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
-	container->WrapContents = false;
+	container->WrapContents = false;*/
 
 	stack<UserMessage> UserMessages;
 
@@ -742,12 +757,12 @@ bool UserAccount::IsBlocked(int User_ID)
 	return Blocked.find(User_ID) != Blocked.end();
 }
 
-void UserAccount::ViewContacts(FlowLayoutPanel^ container)
+void UserAccount::ViewContacts(FlowLayoutPanel^ container,Form^ form)
 {
 	set<int>::iterator itr;
 	vector<pair<int, int>>ContactTotalUserMessages;
 	Label^ noContactMessage = gcnew Label();
-
+	
 	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
 	{
 		int ContactID = *itr;
@@ -769,7 +784,7 @@ void UserAccount::ViewContacts(FlowLayoutPanel^ container)
 	else {
 		sort(ContactTotalUserMessages.begin(), ContactTotalUserMessages.end(), greater<>());
 		for (auto i : ContactTotalUserMessages) {
-			CreateContactLayout(container, Convert::ToString(i.second),Convert::ToString(i.first));
+			CreateContactLayout(container, Convert::ToString(i.second),Convert::ToString(i.first),form);
 		}
 	}
 }

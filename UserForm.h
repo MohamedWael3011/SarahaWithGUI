@@ -35,13 +35,24 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^  ReceivedInboxBtn;
 
-	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
+
 	private: System::Windows::Forms::Button^ InboxButton;
 	private: System::Windows::Forms::Button^ ContactsButton;
 	private: System::Windows::Forms::Button^ SendButton;
 	private: System::Windows::Forms::Button^ LogoutButton;
 	private: System::Windows::Forms::Button^ FavoriteButton;
 	private: System::Windows::Forms::Panel^ Options;
+	private: System::Windows::Forms::Panel^ MainContactPanel;
+	private: System::Windows::Forms::FlowLayoutPanel^ ContactsPanel;
+	private: System::Windows::Forms::FlowLayoutPanel^ MessagesFromContactsPanel;
+
+
+
+
+
+
+
+
 
 
 
@@ -138,16 +149,19 @@ namespace SarahaWithGUI {
 			this->ReceivedButton = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->FavoritesPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
-			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->InboxButton = (gcnew System::Windows::Forms::Button());
 			this->ContactsButton = (gcnew System::Windows::Forms::Button());
 			this->SendButton = (gcnew System::Windows::Forms::Button());
 			this->LogoutButton = (gcnew System::Windows::Forms::Button());
 			this->FavoriteButton = (gcnew System::Windows::Forms::Button());
 			this->Options = (gcnew System::Windows::Forms::Panel());
+			this->MainContactPanel = (gcnew System::Windows::Forms::Panel());
+			this->MessagesFromContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->SendPanel->SuspendLayout();
 			this->InboxPanel->SuspendLayout();
 			this->Options->SuspendLayout();
+			this->MainContactPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// SendPanel
@@ -343,23 +357,6 @@ namespace SarahaWithGUI {
 			this->FavoritesPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->FavoritesPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
-			// ContactsPanel
-			// 
-			this->ContactsPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
-				static_cast<System::Int32>(static_cast<System::Byte>(12)));
-			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
-			this->ContactsPanel->Location = System::Drawing::Point(109, 0);
-			this->ContactsPanel->Margin = System::Windows::Forms::Padding(0);
-			this->ContactsPanel->Name = L"ContactsPanel";
-			this->ContactsPanel->Padding = System::Windows::Forms::Padding(10);
-			this->ContactsPanel->Size = System::Drawing::Size(879, 546);
-			this->ContactsPanel->TabIndex = 105;
-			this->ContactsPanel->WrapContents = false;
-			this->ContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
-			this->ContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
-			this->ContactsPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
-			// 
 			// InboxButton
 			// 
 			this->InboxButton->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)),
@@ -467,15 +464,46 @@ namespace SarahaWithGUI {
 			this->Options->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->Options->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
+			// MainContactPanel
+			// 
+			this->MainContactPanel->Controls->Add(this->MessagesFromContactsPanel);
+			this->MainContactPanel->Controls->Add(this->ContactsPanel);
+			this->MainContactPanel->Location = System::Drawing::Point(109, 0);
+			this->MainContactPanel->Name = L"MainContactPanel";
+			this->MainContactPanel->Size = System::Drawing::Size(879, 546);
+			this->MainContactPanel->TabIndex = 107;
+			// 
+			// MessagesFromContactsPanel
+			// 
+			this->MessagesFromContactsPanel->Location = System::Drawing::Point(601, 53);
+			this->MessagesFromContactsPanel->Name = L"MessagesFromContactsPanel";
+			this->MessagesFromContactsPanel->Padding = System::Windows::Forms::Padding(10);
+			this->MessagesFromContactsPanel->Size = System::Drawing::Size(275, 490);
+			this->MessagesFromContactsPanel->TabIndex = 108;
+			// 
+			// ContactsPanel
+			// 
+			this->ContactsPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->ContactsPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
+				static_cast<System::Int32>(static_cast<System::Byte>(12)));
+			this->ContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
+			this->ContactsPanel->Location = System::Drawing::Point(3, 53);
+			this->ContactsPanel->Margin = System::Windows::Forms::Padding(0);
+			this->ContactsPanel->Name = L"ContactsPanel";
+			this->ContactsPanel->Padding = System::Windows::Forms::Padding(10);
+			this->ContactsPanel->Size = System::Drawing::Size(595, 493);
+			this->ContactsPanel->TabIndex = 107;
+			this->ContactsPanel->WrapContents = false;
+			// 
 			// UserForm
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)),
 				static_cast<System::Int32>(static_cast<System::Byte>(12)));
 			this->ClientSize = System::Drawing::Size(988, 546);
+			this->Controls->Add(this->MainContactPanel);
 			this->Controls->Add(this->Options);
 			this->Controls->Add(this->InboxPanel);
-			this->Controls->Add(this->ContactsPanel);
 			this->Controls->Add(this->SendPanel);
 			this->Controls->Add(this->FavoritesPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
@@ -489,6 +517,7 @@ namespace SarahaWithGUI {
 			this->SendPanel->PerformLayout();
 			this->InboxPanel->ResumeLayout(false);
 			this->Options->ResumeLayout(false);
+			this->MainContactPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -547,7 +576,7 @@ namespace SarahaWithGUI {
 	private: System::Void ShowPanels(bool visible)
 	{
 		this->InboxPanel->Visible = visible;
-		this->ContactsPanel->Visible = visible;
+		this->MainContactPanel->Visible = visible;
 		this->SendPanel->Visible = visible;
 		this->FavoritesPanel->Visible = visible;
 	}
@@ -569,10 +598,10 @@ namespace SarahaWithGUI {
 	private: System::Void ContactsButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
 		resetButtons();
 		ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
-		SelectPanel(ContactsPanel);
+		SelectPanel(MainContactPanel);
 
 		ContactsPanel->Controls->Clear();
-		current_user->ViewContacts(ContactsPanel);
+		current_user->ViewContacts(ContactsPanel,this);
 	}
 	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
 		resetButtons();
@@ -736,5 +765,30 @@ namespace SarahaWithGUI {
 
 		LoadReceivedMessages(m_lastrecvmsgfull);
 	}
+	public: System::Void SeeMessages_btn_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		MessagesFromContactsPanel->Controls->Clear();
+		//Named the button in CreatPanelFunction as userID
+		Button^ btn = static_cast<Button^>(sender);
+		int id = atoi(SystemStringToCpp(btn->Name).c_str());
+		
+		current_user->ViewUserMessages(MessagesFromContactsPanel,this,id);
+
+	}
+
+	public: System::Void BlockContact_btn_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Button^ btn = static_cast<Button^>(sender);
+		int id = atoi(SystemStringToCpp(btn->Name).c_str());
+
+		if (current_user->Block(id))
+		
+			MessageBox::Show("Contact has been blocked", "Block list", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		else
+			MessageBox::Show("Contact already blocked", "Block list", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		
+	}
+
+
 };
 }

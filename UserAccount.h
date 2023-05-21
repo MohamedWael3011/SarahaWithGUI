@@ -32,7 +32,7 @@ public:
 	char SendUserMessage(UserAccount* recipient, string content);
 	bool PopUserMessage(UserAccount* user);
 	void SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen);
-	void ViewContacts(FlowLayoutPanel^ container); //ordered by most UserMessages
+	void ViewContacts(FlowLayoutPanel^ container, Form^ form); //ordered by most UserMessages
 	vector<pair<UserMessage, int>> ViewReceivedMessages(FlowLayoutPanel^ container, Form^ form, bool full = false);
 	void ViewSentMessages(FlowLayoutPanel^ container, Form^ form);
 	bool ViewUserMessages(FlowLayoutPanel^ container, Form^ form, int User_ID);
