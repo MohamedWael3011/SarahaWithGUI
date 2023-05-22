@@ -874,3 +874,24 @@ void UserAccount::ViewContacts(FlowLayoutPanel^ container,Form^ form)
 		}
 	}
 }
+
+void UserAccount::ViewContacts(FlowLayoutPanel^ container, Form^ form, int User_ID)
+{
+	if (GetContact(User_ID) && !IsBlocked(User_ID))
+		CreateContactLayout(container, Convert::ToString(User_ID), Convert::ToString(ReceivedMessages[User_ID].size()), form);
+	else
+	{
+		Label^ noContactMessage = gcnew Label();
+
+		//Properties for Label
+		noContactMessage->Text = "Couldn't find this contact. :(";
+		noContactMessage->ForeColor = Color::White;
+		noContactMessage->AutoSize = true;
+		noContactMessage->Margin = Padding(20);
+		noContactMessage->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			static_cast<System::Byte>(0)));
+
+		container->Controls->Add(noContactMessage);
+	}
+}
+

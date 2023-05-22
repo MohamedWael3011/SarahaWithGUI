@@ -47,6 +47,10 @@ namespace SarahaWithGUI {
 	private: System::Windows::Forms::FlowLayoutPanel^ MessagesFromContactsPanel;
 	private: System::Windows::Forms::Button^  BlockedButton;
 	private: System::Windows::Forms::FlowLayoutPanel^ BlocksPanel;
+	private: System::Windows::Forms::Panel^  ContactSidePanel;
+	private: System::Windows::Forms::Panel^  panel5;
+	private: System::Windows::Forms::TextBox^  Contact_SearchBox;
+
 
 
 
@@ -163,6 +167,9 @@ namespace SarahaWithGUI {
 			this->Options = (gcnew System::Windows::Forms::Panel());
 			this->BlockedButton = (gcnew System::Windows::Forms::Button());
 			this->MainContactPanel = (gcnew System::Windows::Forms::Panel());
+			this->ContactSidePanel = (gcnew System::Windows::Forms::Panel());
+			this->panel5 = (gcnew System::Windows::Forms::Panel());
+			this->Contact_SearchBox = (gcnew System::Windows::Forms::TextBox());
 			this->MessagesFromContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->ContactsPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->BlocksPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
@@ -170,6 +177,7 @@ namespace SarahaWithGUI {
 			this->InboxPanel->SuspendLayout();
 			this->Options->SuspendLayout();
 			this->MainContactPanel->SuspendLayout();
+			this->ContactSidePanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// SendPanel
@@ -494,6 +502,7 @@ namespace SarahaWithGUI {
 			// 
 			// MainContactPanel
 			// 
+			this->MainContactPanel->Controls->Add(this->ContactSidePanel);
 			this->MainContactPanel->Controls->Add(this->MessagesFromContactsPanel);
 			this->MainContactPanel->Controls->Add(this->ContactsPanel);
 			this->MainContactPanel->Location = System::Drawing::Point(109, 0);
@@ -504,13 +513,48 @@ namespace SarahaWithGUI {
 			this->MainContactPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
 			this->MainContactPanel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseUp);
 			// 
+			// ContactSidePanel
+			// 
+			this->ContactSidePanel->Controls->Add(this->panel5);
+			this->ContactSidePanel->Controls->Add(this->Contact_SearchBox);
+			this->ContactSidePanel->Location = System::Drawing::Point(603, 6);
+			this->ContactSidePanel->Name = L"ContactSidePanel";
+			this->ContactSidePanel->Size = System::Drawing::Size(270, 45);
+			this->ContactSidePanel->TabIndex = 0;
+			// 
+			// panel5
+			// 
+			this->panel5->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(165)),
+				static_cast<System::Int32>(static_cast<System::Byte>(140)));
+			this->panel5->Location = System::Drawing::Point(7, 34);
+			this->panel5->Name = L"panel5";
+			this->panel5->Size = System::Drawing::Size(254, 3);
+			this->panel5->TabIndex = 20;
+			// 
+			// Contact_SearchBox
+			// 
+			this->Contact_SearchBox->AccessibleName = L"";
+			this->Contact_SearchBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(12)),
+				static_cast<System::Int32>(static_cast<System::Byte>(12)), static_cast<System::Int32>(static_cast<System::Byte>(12)));
+			this->Contact_SearchBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->Contact_SearchBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->Contact_SearchBox->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(165)), static_cast<System::Int32>(static_cast<System::Byte>(140)));
+			this->Contact_SearchBox->Location = System::Drawing::Point(7, 11);
+			this->Contact_SearchBox->Name = L"Contact_SearchBox";
+			this->Contact_SearchBox->Size = System::Drawing::Size(254, 19);
+			this->Contact_SearchBox->TabIndex = 19;
+			this->Contact_SearchBox->Text = L"User ID";
+			this->Contact_SearchBox->TextChanged += gcnew System::EventHandler(this, &UserForm::Contact_SearchBox_TextChanged);
+			// 
 			// MessagesFromContactsPanel
 			// 
 			this->MessagesFromContactsPanel->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
-			this->MessagesFromContactsPanel->Location = System::Drawing::Point(601, 0);
+			this->MessagesFromContactsPanel->Location = System::Drawing::Point(603, 57);
 			this->MessagesFromContactsPanel->Name = L"MessagesFromContactsPanel";
 			this->MessagesFromContactsPanel->Padding = System::Windows::Forms::Padding(10);
-			this->MessagesFromContactsPanel->Size = System::Drawing::Size(270, 543);
+			this->MessagesFromContactsPanel->Size = System::Drawing::Size(270, 486);
 			this->MessagesFromContactsPanel->TabIndex = 108;
 			this->MessagesFromContactsPanel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseDown);
 			this->MessagesFromContactsPanel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &UserForm::UserForm_MouseMove);
@@ -570,6 +614,8 @@ namespace SarahaWithGUI {
 			this->InboxPanel->ResumeLayout(false);
 			this->Options->ResumeLayout(false);
 			this->MainContactPanel->ResumeLayout(false);
+			this->ContactSidePanel->ResumeLayout(false);
+			this->ContactSidePanel->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -654,8 +700,7 @@ namespace SarahaWithGUI {
 		ContactsButton->Image = System::Drawing::Image::FromFile("img/SelectedContacts.png");
 		SelectPanel(MainContactPanel);
 
-		ContactsPanel->Controls->Clear();
-		current_user->ViewContacts(ContactsPanel,this);
+		LoadContacts();
 	}
 	private: System::Void SendButton_MouseClick(System::Object^ sender, System::EventArgs^ e) {
 		resetButtons();
@@ -700,6 +745,13 @@ namespace SarahaWithGUI {
 		//reload blocks
 		BlocksPanel->Controls->Clear();
 		current_user->ViewBlocks(BlocksPanel, this);
+	}
+
+	private: System::Void LoadContacts()
+	{
+		//reload contacts
+		ContactsPanel->Controls->Clear();
+		current_user->ViewContacts(ContactsPanel, this);
 	}
 
 	private: System::Void ReceivedButton_Click(System::Object^ sender, System::EventArgs^ e)
@@ -877,5 +929,18 @@ namespace SarahaWithGUI {
 
 		LoadBlocks();
 	}
+
+private: System::Void Contact_SearchBox_TextChanged(System::Object^  sender, System::EventArgs^  e)
+{
+	if (String::IsNullOrEmpty(Contact_SearchBox->Text))
+		LoadContacts();
+	else
+	{
+		int userid = atoi(SystemStringToCpp(Contact_SearchBox->Text).c_str());
+
+		ContactsPanel->Controls->Clear();
+		current_user->ViewContacts(ContactsPanel, this, userid);
+	}
+}
 };
 }
