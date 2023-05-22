@@ -42,7 +42,6 @@ public:
 	bool RemoveFavorite(int User_ID, int Msg_Index);
 	bool IsFavorite(int User_ID, int Msg_Index);
 	bool ViewFavorites(FlowLayoutPanel^ container, Form^ form);
-	bool DeleteSpecificFavorite(int senderID,int Msg_Index);
 	bool ViewBlocks(FlowLayoutPanel^ container, Form^ form);
 
 private:

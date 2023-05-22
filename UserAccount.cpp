@@ -49,14 +49,10 @@ bool UserAccount::AddContact(int User_ID) {
 
 	if (ReceivedMessages.find(User_ID) != ReceivedMessages.end()) {
 
-		/*if (Contacts.find(User_ID) != Contacts.end()) {
 
-			MessageBoxA(NULL, (to_string(User_ID) + " is already in your contacts list.").c_str(), "Contacts", MB_ICONEXCLAMATION);
-		}
-		else */if (Contacts.find(User_ID) == Contacts.end()) {
+		if (Contacts.find(User_ID) == Contacts.end()) {
 
 			Contacts.insert(User_ID);
-			//MessageBoxA(NULL, (to_string(User_ID) + " has been added to your contacts list.").c_str(), "Contacts", MB_ICONINFORMATION);
 			return true;
 		}
 	}
@@ -68,7 +64,6 @@ bool UserAccount::RemoveContact(int User_ID) {
 
 	if (Contacts.find(User_ID) != Contacts.end()) {
 		Contacts.erase((User_ID));
-		//MessageBoxA(NULL, (to_string(User_ID) + " has been removed from your contacts list.").c_str(), "Contacts", MB_ICONINFORMATION);
 		return true;
 	}
 	return false;
@@ -112,7 +107,6 @@ char UserAccount::SendUserMessage(UserAccount* recipient, string content)
 	// if received msgs from this user before
 	if (it != recipient->ReceivedMessages.end())
 	{
-		//msg.Index = (!it->second.empty() ? it->second.top().Index : 0) + 1;
 		it->second.push(msg);
 	}
 
@@ -145,7 +139,7 @@ bool UserAccount::PopUserMessage(UserAccount* user) {
 		return true;
 	}
 	// Remove if in favorite
-	user->DeleteSpecificFavorite(user->m_id, tempMsg.Index);
+	user->RemoveFavorite(user->m_id, tempMsg.Index);
 }
 
 void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
@@ -361,7 +355,6 @@ Panel^ UserAccount::CreateMainMessagePanel(Form^ form, int User_ID, UserMessage&
 void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, vector<pair<UserMessage, int>>& messages)
 {
 	//Flow Layout Properties
-	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -376,7 +369,6 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, ve
 void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<UserMessage>& messages, int User_ID)
 {
 	//Flow Layout Properties
-	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -395,7 +387,6 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, st
 void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<pair<int, UserMessage>>& messages)
 {
 	//Flow Layout Properties
-	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -414,7 +405,6 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, st
 void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, queue<pair<int, UserMessage>>& messages)
 {
 	//Flow Layout Properties
-	//container->Location = Point(110, 135);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -433,7 +423,6 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, qu
 void UserAccount::CreateBlocksLayout(FlowLayoutPanel^ container, Form^ form)
 {
 	//Properties of FlowLayoutPanels
-	//container->Size = System::Drawing::Size(879, 546);
 	container->FlowDirection = FlowDirection::TopDown;
 	container->AutoScroll = true;
 	container->WrapContents = false;
@@ -534,8 +523,6 @@ Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs, Form^ form)
 	placeHolder->ForeColor = Color::White;
 	placeHolder->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
-	//placeHolder->Size = Drawing::Size(34, 20);
-	//placeHolder->Location = Drawing::Point(66, 20);
 	placeHolder->AutoSize = true;
 
 	uIDNumberLabel->AutoSize = true;
@@ -786,33 +773,7 @@ bool UserAccount::ViewFavorites(FlowLayoutPanel^ container, Form^ form)
 	return true;
 }
 
-bool UserAccount::DeleteSpecificFavorite(int senderID, int Msg_Index)
-{
-	//Checking if index is in bounds
-	if (Msg_Index < 0)
-		return false;
 
-	//Adding elements before location into temp q
-	queue<pair<int, UserMessage>> temp;
-	size_t size = Favorites.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		if (Favorites.front().first != senderID || Favorites.front().second.Index != Msg_Index)
-		{
-			temp.push(Favorites.front());
-		}
-		Favorites.pop();
-	}
-
-	//Pushing all elements from temp into main queue
-	while (!temp.empty())
-	{
-		Favorites.push(temp.front());
-		temp.pop();
-	}
-	return true;
-}
 
 bool UserAccount::ViewBlocks(FlowLayoutPanel^ container, Form^ form)
 {
