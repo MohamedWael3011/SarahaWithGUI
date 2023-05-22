@@ -175,28 +175,34 @@ void UserAccount::SetSentMessageSeen(int Receiver_ID, int Msg_Index, bool seen)
 
 Panel^ UserAccount::CreateMessageBox(String^ message)
 {
+	const int MaxWidthPerLine = 2600;
+
 	Panel^ messageContainer = gcnew Panel();
 	RichTextBox^ messageBox = gcnew RichTextBox();
 
-	int wordCount = 0;
+	int count = 0;
 
 	String^ messageContent = message;
 
-	//Limiting the number of words per line to 15
-	cli::array<String^>^ words = messageContent->Split();
+	// Single character size
+	int charsize = TextRenderer::MeasureText("W", messageBox->Font).Width;
+
+	// Maximum characters per line
+	charsize = MaxWidthPerLine / charsize;
+
+	//Limiting the number of characters per line
 	String^ processedText = "";
-	for each (String ^ word in words)
+	for each (char word in messageContent)
 	{
-		if (wordCount > 15)
-		{
+		processedText += Char::ToString(word);
+
+		if (count > 0 && !(count % charsize))
 			processedText += "\n";
-			wordCount = 0;
-		}
-		processedText += word + " ";
-		wordCount++;
+
+		count++;
 	}
 
-	messageBox->Text = processedText->Trim();
+	messageBox->Text = processedText;
 
 	//Measure size of text in textbox
 	Drawing::Size size = TextRenderer::MeasureText(messageBox->Text, messageBox->Font);
@@ -422,6 +428,74 @@ void UserAccount::CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, qu
 		container->Controls->Add(CreateMainMessagePanel(form, message.first, message.second, "Favorite"));
 		messages.pop();
 	}
+}
+
+void UserAccount::CreateBlocksLayout(FlowLayoutPanel^ container, Form^ form)
+{
+	//Properties of FlowLayoutPanels
+	//container->Size = System::Drawing::Size(879, 546);
+	container->FlowDirection = FlowDirection::TopDown;
+	container->AutoScroll = true;
+	container->WrapContents = false;
+
+	for (auto it = Blocked.begin(); it != Blocked.end(); ++it)
+		container->Controls->Add(CreateBlockPanel(container, form, *it));
+}
+
+Panel^ UserAccount::CreateBlockPanel(FlowLayoutPanel^ container, Form^ form, int User_ID)
+{
+	String^ userid = Convert::ToString(User_ID);
+
+	Panel^ BlockPanel = gcnew Panel();
+	PictureBox^ BlockIcon = gcnew PictureBox();
+	Label^ uIDLabel = gcnew Label();
+	Label^ placeHolder = gcnew Label();
+	Button^ UnblockButton = gcnew Button();
+
+
+	//Properties for Panel
+	BlockPanel->Size = Drawing::Size(480, 61);
+	BlockPanel->BorderStyle = BorderStyle::FixedSingle;
+	BlockPanel->Location = System::Drawing::Point(204, 10);
+	BlockPanel->Margin = System::Windows::Forms::Padding(204, 10, 3, 3);
+	BlockPanel->Name = L"BlockPanel";
+
+	//Properties of PictureBox
+	BlockIcon->Size = Drawing::Size(32, 32);
+	BlockIcon->Location = Point(15, 14);
+	BlockIcon->Image = System::Drawing::Image::FromFile("img/ProfileIcon.png");
+
+	//Properties of Labels
+	uIDLabel->ForeColor = Color::White;
+	uIDLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	uIDLabel->Size = Drawing::Size(34, 20);
+	uIDLabel->Location = Drawing::Point(66, 20);
+	uIDLabel->AutoSize = true;
+	placeHolder->Text = userid;
+	placeHolder->Name = L"placeHolder";
+	uIDLabel->Text = "Blocked user: " + placeHolder->Text;
+
+	placeHolder->ForeColor = Color::White;
+	placeHolder->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	placeHolder->AutoSize = true;
+
+	//Properties of Button (Unblock)
+	UnblockButton->AutoSize = true;
+	UnblockButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+	UnblockButton->ForeColor = System::Drawing::Color::White;
+	UnblockButton->Location = System::Drawing::Point(375, 19);
+	UnblockButton->Size = System::Drawing::Size(89, 25);
+	UnblockButton->Text = "Unblock";
+	UnblockButton->Name = userid;
+	UnblockButton->Click += gcnew System::EventHandler(static_cast<SarahaWithGUI::UserForm^>(form), &SarahaWithGUI::UserForm::BlockPanel_Unblock_Click);
+
+	BlockPanel->Controls->Add(BlockIcon);
+	BlockPanel->Controls->Add(uIDLabel);
+	BlockPanel->Controls->Add(UnblockButton);
+
+	return BlockPanel;
 }
 
 Panel^ CreateContactPanel(String^ user_ID, String^ numMsgs, Form^ form)
@@ -740,6 +814,15 @@ bool UserAccount::DeleteSpecificFavorite(int senderID, int Msg_Index)
 	return true;
 }
 
+bool UserAccount::ViewBlocks(FlowLayoutPanel^ container, Form^ form)
+{
+	if (Blocked.empty())
+		return false;
+
+	CreateBlocksLayout(container, form);
+	return true;
+}
+
 int UserAccount::GetUserMessagesFromUser(UserAccount* user) {
 	return ReceivedMessages[user->m_id].size();
 
@@ -766,8 +849,11 @@ void UserAccount::ViewContacts(FlowLayoutPanel^ container,Form^ form)
 	for (itr = Contacts.begin(); itr != Contacts.end(); itr++) // Retrieving Contact's Sent UserMessages
 	{
 		int ContactID = *itr;
-		int ContactUserMessages = ReceivedMessages[ContactID].size();
-		ContactTotalUserMessages.push_back(make_pair(ContactUserMessages, ContactID)); // Storing as (UserMessages,ID) for easier sort lol :')
+		if (!IsBlocked(ContactID))
+		{
+			int ContactUserMessages = ReceivedMessages[ContactID].size();
+			ContactTotalUserMessages.push_back(make_pair(ContactUserMessages, ContactID)); // Storing as (UserMessages,ID) for easier sort lol :')
+		}
 	}
 	if (ContactTotalUserMessages.empty()) {
 

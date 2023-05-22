@@ -42,6 +42,7 @@ public:
 	bool IsFavorite(int User_ID, int Msg_Index);
 	bool ViewFavorites(FlowLayoutPanel^ container, Form^ form);
 	bool DeleteSpecificFavorite(int senderID,int Msg_Index);
+	bool ViewBlocks(FlowLayoutPanel^ container, Form^ form);
 
 private:
 	Panel^ CreateMessageBox(String^ message);
@@ -51,6 +52,8 @@ private:
 	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<UserMessage>& messages, int User_ID);
 	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, stack<pair<int, UserMessage>>& messages);
 	void CreateMessageLayout(FlowLayoutPanel^ container, Form^ form, queue<pair<int, UserMessage>>& messages);
+	void CreateBlocksLayout(FlowLayoutPanel^ container, Form^ form);
+	Panel^ CreateBlockPanel(FlowLayoutPanel^ container, Form^ form, int User_ID);
 
 public:
 	int GetUserMessagesFromUser(UserAccount* user);
